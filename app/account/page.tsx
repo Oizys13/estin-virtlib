@@ -1,10 +1,10 @@
 "use client"
-import SideBar from "@/components/side-bar";
-import TopMain1 from "@/components/top-main1";
-import HomePage from "@/pages/home-page";
-import HomeProfile from "@/pages/home-profile";
-export default function Main() {
+import SideBar from '@/components/side-bar'
+import TopMain1 from '@/components/top-main1'
+import Account from '@/pages/Account'
+import React from 'react'
 
+const page = () => {
     return (
         <main className="h-full w-full">
             <div className="flex flex-col gap-2">
@@ -25,7 +25,7 @@ export default function Main() {
                             searchLabelOverflow="hidden"
                             username={name!}
                         />
-                        <HomePage />
+                        <Account/>
                     </div>
                     <SideBar
                         propPosition="absolute"
@@ -47,3 +47,5 @@ export default function Main() {
         </main >
     )
 }
+
+export default page

@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 export type BookItemContainerType = {
   className?: string;
-  rectangle12?: string;
-  dontMakeMeThink?: string;
-  steveKrug2000?: string;
+  image?: string;
+  title?: string;
+  author?: string;
+  year?: string;
 
   /** Style props */
   dontMakeMeWidth?: CSSProperties["width"];
@@ -24,11 +25,12 @@ const BookItemContainer: NextPage<BookItemContainerType> = ({
   className = "",
   onBookItemContainerClick,
   dontMakeMeWidth,
-  rectangle12,
-  dontMakeMeThink,
+  image,
+  title,
   spanHeight,
   spanDisplay,
-  steveKrug2000,
+  author,
+  year,
   propHeight,
   propHeight1,
 }) => {
@@ -45,7 +47,7 @@ const BookItemContainer: NextPage<BookItemContainerType> = ({
     };
   }, [spanHeight, spanDisplay]);
 
-  const steveKrug2000Style: CSSProperties = useMemo(() => {
+  const authorStyle: CSSProperties = useMemo(() => {
     return {
       height: propHeight,
     };
@@ -65,33 +67,33 @@ const BookItemContainer: NextPage<BookItemContainerType> = ({
 
   return (
     <div
-      className={`w-40 rounded-3xs bg-white overflow-hidden shrink-0 flex flex-col items-end justify-start pt-4 px-[15px] pb-[13px] box-border gap-3 cursor-pointer text-left text-3xs text-dimgray-600 font-inter ${className}`}
+      className={`w-[160px] h-[260px] rounded-[10px] bg-white overflow-hidden shrink-0 flex flex-col items-end justify-start pt-4 px-[15px] pb-[13px] box-border gap-3 cursor-pointer text-left text-3xs text-dimgray-600 font-inter ${className}`}
       onClick={onBookItemContainerClick}
       style={bookItemContainerStyle}
     >
-      <div className="self-stretch flex flex-row items-start justify-end py-0 pl-[5px] pr-0.5">
+      <div className="self-stretch  flex flex-row items-start justify-end py-0 pl-[5px] pr-0.5">
         <img
-          className="h-[170px] flex-1 relative rounded-8xs max-w-full overflow-hidden object-cover"
+          className="h-[170px] rounded-[5px] flex-1 relative rounded-8xs max-w-full overflow-hidden object-cover"
           loading="lazy"
           alt=""
-          src={rectangle12}
+          src={image}
         />
       </div>
       <div className="self-stretch flex flex-col items-start justify-start gap-[5px]">
         <div
-          className="self-stretch relative text-xs leading-[128.52%]"
+          className="self-stretch relative text-10pt whitespace-nowrap leading-[128.52%]"
           style={dontMakeMeStyle}
         >
-          {dontMakeMeThink}
+          {title}
         </div>
         <div
-          className="w-[101px] relative leading-[14px] inline-block"
-          style={steveKrug2000Style}
+          className="w-[101px] relative text-8pt leading-[14px] inline-block"
+          style={authorStyle}
         >
-          {steveKrug2000}
+          {author}, {year}
         </div>
         <div
-          className="w-[101px] relative leading-[128.52%] inline-block"
+          className="w-[101px] relative text-8pt leading-[128.52%] inline-block"
           style={bookRatingsStyle}
         >
           <span>4.5</span>

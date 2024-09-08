@@ -2,10 +2,10 @@
 import type { NextPage } from "next";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { signIn, signOut, useSession  } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from 'react';
 
-import UserInfo from "@/components/user-info";
+
 
 
 const Login: NextPage = () => {
@@ -23,13 +23,9 @@ const Login: NextPage = () => {
     }
   }, [status, session, router]);
   return (
-    <div className="w-full  relative bg-white overflow-hidden flex flex-row items-start justify-between py-2.5 pl-[214px] pr-[9px] box-border leading-[normal] tracking-[normal] gap-5 text-center text-21xl text-gray-500 font-montserrat mq900:pl-[53px] mq900:box-border mq1300:pl-[107px] mq1300:box-border mq1650:flex-wrap">
-      <img
-        className="w-[956px] relative rounded-3xl max-h-full object-cover hidden max-w-full"
-        alt=""
-        src="/vecteezy-retrobiglibraryillustration-23531243-1@2x.png"
-      />
-      <div className="h-[1060px] w-[464px] flex flex-col items-start justify-start pt-[174px] px-0 pb-0 box-border min-w-[464px] max-w-full mq900:pt-[73px] mq900:box-border mq900:min-w-full mq450:h-auto mq1300:pt-[113px] mq1300:box-border mq1650:flex-1">
+    <div className="w-full h-screen  relative bg-white overflow-hidden flex flex-row items-start justify-between py-2.5 pl-[214px] pr-[9px] box-border leading-[normal] tracking-[normal] gap-5 text-center text-21xl text-gray-500 font-montserrat mq900:pl-[53px] mq900:box-border mq1300:pl-[107px] mq1300:box-border mq1650:flex-wrap">
+
+      <div className="h-screen w-[464px] flex flex-col items-start justify-start pt-[100px] px-0 pb-0 box-border min-w-[464px] max-w-full mq900:pt-[73px] mq900:box-border mq900:min-w-full mq450:h-auto mq1300:pt-[113px] mq1300:box-border mq1650:flex-1">
         <div className="self-stretch flex flex-col items-center justify-start gap-[217px] max-w-full shrink-0 mq450:gap-[108px]">
           <div className="self-stretch flex flex-col items-center justify-start gap-[98px] max-w-full mq450:gap-[49px]">
             <div className="self-stretch flex flex-col items-center justify-start py-0 px-[26px] box-border gap-[7px] max-w-full">
@@ -42,12 +38,17 @@ const Login: NextPage = () => {
             </div>
             <div className="self-stretch flex flex-col items-center justify-start gap-[38px] max-w-full text-left text-lg text-small-title mq450:gap-[19px]">
               <div className="self-stretch flex flex-col items-center justify-start gap-6 max-w-full">
-                <UserInfo/>
-                {status === "authenticated" ? (
-                  <button onClick={() => signOut()}>Sign Out</button>
-                ):(
-                  <br />
-                )}
+                <button onClick={() => signIn('google')} className="bg-[#F6FBFF] rounded-lg bg-ghostwhite border-stroke border-[1px] border-solid flex flex-row items-center justify-center py-4 px-[47px] gap-[23px] whitespace-nowrap mq450:pl-[23px] mq450:pr-[23px] mq450:box-border">
+                  <img
+                    className="h-[31px] w-[31px] relative object-cover"
+                    loading="lazy"
+                    alt=""
+                    src="/image-2@2x.png"
+                  />
+                  <div className="relative tracking-[0.01em] leading-[100%] font-medium ">
+                    Connexion avec Google @estin.dz
+                  </div>
+                </button>
                 <div className="w-[388px] flex flex-row items-center justify-center py-2.5 px-0 box-border gap-4 max-w-full text-center text-base text-darkgray-500 font-roboto">
                   <div className="h-px w-[119px] relative border-gainsboro-400 border-t-[1px] border-solid box-border shrink-0" />
                   <div className="relative tracking-[0.01em] leading-[100%] shrink-0">
@@ -70,7 +71,7 @@ const Login: NextPage = () => {
                   </div>
                   <div className="self-stretch flex flex-col items-start justify-start gap-1">
                     <div className="self-stretch relative text-xl tracking-[0.01em] font-medium font-montserrat text-small-title text-left mq450:text-base">
-                    Mot de passe
+                      Mot de passe
                     </div>
                     <div className="self-stretch rounded-lg border-stroke border-[1px] border-solid flex items-center py-[21px] px-3.5 relative">
                       <input
@@ -86,11 +87,11 @@ const Login: NextPage = () => {
                     </div>
 
                     <div className="relative text-base [text-decoration:underline] leading-[100%] font-montserrat text-dimgray-600 text-left">
-                        Forgot password?
-                      </div>
+                      Forgot password?
+                    </div>
                   </div>
-                  
-                  
+
+
                 </div>
                 <div className="w-[421px] hidden flex-row items-center justify-between py-0 pl-0 pr-px box-border min-h-[63px] gap-5 max-w-full mq450:flex-wrap">
                   <div className="h-14 w-[147px] flex flex-row items-center justify-start py-5 px-0 box-border gap-2">
@@ -109,11 +110,11 @@ const Login: NextPage = () => {
                 </div>
                 <button
                   className="bg-[#fa7d55] text-white cursor-pointer [border:none] py-[21.5px] px-4 bg-main self-stretch rounded-lg flex flex-row items-center justify-center box-border max-w-full hover:bg-chocolate"
-                  
+
                 >
-                
-                        Connexion
-                    
+
+                  Connexion
+
                 </button>
               </form>
             </div>
@@ -124,7 +125,7 @@ const Login: NextPage = () => {
         </div>
       </div>
       <img
-        className="w-[956px] relative rounded-9xl max-h-full object-cover max-w-full mq1650:flex-1"
+        className="w-[956px] relative rounded-[28px] h-full object-cover max-w-full mq1650:flex-1"
         loading="lazy"
         alt=""
         src="/unsplashhh4wbgnyltc@2x.png"

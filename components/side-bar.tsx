@@ -101,10 +101,10 @@ const SideBar: NextPage<SideBarType> = ({
 
   return (
     <div
-      className={`absolute top-[48px] left-[35px] w-[306px] h-[994px] flex flex-row items-start justify-start z-[1] text-left text-xl text-gray-200 font-inter ${className}`}
+      className={`absolute top-[48px] left-[35px] w-[306px] h-[500px] flex flex-row items-start justify-start z-[1] text-left text-xl text-gray-200 font-inter ${className}`}
       style={sideBarStyle}
     >
-      <div className="self-stretch flex-1 rounded-tl-[18px] rounded-tr-none rounded-br-none rounded-bl-3xs bg-white overflow-hidden flex flex-col items-start justify-start pt-[38px] px-[66px] pb-[51px] gap-[99.8px]">
+      <div className="self-stretch flex-1 h-[1000px] rounded-tl-[18px] rounded-tr-none rounded-br-none rounded-bl-3xs bg-white overflow-hidden flex flex-col items-start justify-start pt-[38px] px-[66px] pb-[51px] gap-[99.8px]">
         <div className="flex flex-row items-start justify-start py-0 px-0.5">
           <img
             className="h-[74.2px] w-[120px] relative object-cover z-[1]"

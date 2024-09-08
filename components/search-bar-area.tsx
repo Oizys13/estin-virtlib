@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useCallback } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export type SearchBarAreaType = {
   className?: string;
@@ -19,7 +19,7 @@ const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
     >
       <div className="self-stretch flex flex-row items-start justify-start py-0 pl-0.5 pr-px box-border top-[0] z-[99] sticky max-w-full">
         <div className="flex-1 flex flex-row items-start justify-start gap-7 max-w-full">
-          <div className="flex-1 shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-21xl bg-white flex flex-row items-start justify-between py-0 pl-0 pr-[17px] box-border max-w-full gap-5 z-[3] text-left">
+          <div className="flex-1 rounded-[40px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-21xl bg-white flex flex-row items-start justify-between py-0 pl-0 pr-[17px] box-border max-w-full gap-5 z-[3] text-left">
             <div className="self-stretch w-[541px] relative shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-21xl bg-white hidden max-w-full" />
             <div className="w-[352px] flex flex-row items-start justify-start gap-[21px] max-w-full">
               <div className="rounded-tl-21xl rounded-tr-none rounded-br-none rounded-bl-21xl bg-whitesmoke-100 flex flex-row items-start justify-start pt-3 pb-[13px] pl-[37px] pr-[11px] gap-2.5 z-[1]">
@@ -63,7 +63,7 @@ const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
               </div>
             </div>
           </div>
-          <div className="w-[170px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-11xl bg-white flex flex-row items-start justify-start pt-3 px-[25px] pb-[12.9px] box-border z-[3]">
+          <div className="w-[170px] rounded-[40px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-11xl bg-white flex flex-row items-start justify-start pt-3 px-[25px] pb-[12.9px] box-border z-[3]">
             <div className="h-[47px] w-[170px] relative shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-11xl bg-white hidden z-[1]" />
             <div className="flex flex-col items-start justify-start pt-0.5 pb-0 pl-0 pr-[7px]">
               <img
@@ -86,9 +86,9 @@ const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
               />
             </div>
           </div>
-          <div className="w-[455px] flex flex-col items-start justify-start pt-px px-0 pb-0 box-border max-w-full text-mini font-digital-numbers mq1300:w-0">
-            <div className="self-stretch shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-21xl bg-white flex flex-row items-start justify-between pt-3.5 pb-[13px] pl-[57px] pr-[52px] box-border max-w-full gap-5 z-[3] mq1300:hidden">
-              <div className="h-[46px] w-[455px] relative shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-21xl bg-white hidden max-w-full" />
+          <div className="w-[455px] rounded-[40px] flex flex-col items-start justify-start pt-px px-0 pb-0 box-border max-w-full text-mini font-digital-numbers mq1300:w-0">
+            <div className="self-stretch shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-[40px] bg-white flex flex-row items-start justify-between pt-3.5 pb-[13px] pl-[57px] pr-[52px] box-border max-w-full gap-5 z-[3] mq1300:hidden">
+              <div className="h-[46px] w-[455px] relative shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-[40px] bg-white hidden max-w-full" />
               <div className="w-[133px] flex flex-row items-start justify-start gap-[5px]">
                 <img
                   className="h-[19px] w-[19px] relative overflow-hidden shrink-0 min-h-[19px] z-[1]"
@@ -113,8 +113,8 @@ const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
               </div>
             </div>
           </div>
-          <button className="cursor-pointer [border:none] pt-[3px] px-[3px] pb-0.5 bg-white w-[203px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-14xl flex flex-row items-start justify-start box-border z-[3]">
-            <div className="h-[50px] w-[203px] relative shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-14xl bg-white hidden" />
+          <button className="cursor-pointer [border:none] pt-[3px] px-[3px] pb-0.5 bg-white w-[203px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-[40px] flex flex-row items-start justify-start box-border z-[3]">
+            <div className="h-[50px] w-[203px] relative shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-[40px] bg-white hidden" />
             <div className="flex flex-col items-start justify-start py-0 pl-0 pr-[18px]">
               <img
                 className="w-[45px] h-[45px] relative rounded-[50%] object-cover z-[1]"
@@ -129,7 +129,7 @@ const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
             </div>
             <div className="flex flex-col items-start justify-start pt-[18px] px-0 pb-0">
               <img
-                className="w-[17px] h-[9px] relative rounded-12xs object-contain z-[1]"
+                className="w-[17px] h-[9px] relative object-contain z-[1]"
                 alt=""
                 src="/search-icon.svg"
               />
@@ -138,7 +138,7 @@ const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
         </div>
       </div>
       <div
-        className="w-[170px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-11xl bg-white flex flex-row items-start justify-start pt-[11px] pb-2.5 pl-[27px] pr-6 box-border gap-[11px] cursor-pointer"
+        className="w-[170px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-[40px] bg-white flex flex-row items-start justify-start pt-[11px] pb-2.5 pl-[27px] pr-6 box-border gap-[11px] cursor-pointer"
         onClick={onGroupContainerClick}
       >
         <div className="h-[47px] w-[170px] relative shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-11xl bg-white hidden" />

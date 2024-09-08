@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useCallback } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export type GroupComponentType = {
   className?: string;
