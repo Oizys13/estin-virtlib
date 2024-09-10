@@ -1,12 +1,11 @@
-"use client";
-import AddBook from '@/components/add-book';
-import Contribute from '@/pages/contribute.page';
-import React, { useState, useEffect } from 'react';
-import { useSession } from "next-auth/react";
+// hooks/useSuperuserStatus.ts
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
-const ContributePage = () => {
+const useSuperuserStatus = (): [boolean | null, boolean] => {
   const { status, data: session } = useSession();
   const [isSuperuser, setIsSuperuser] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchSuperuserStatus = async () => {
@@ -26,20 +25,13 @@ const ContributePage = () => {
           console.error('Error fetching superuser status:', error);
         }
       }
+      setLoading(false);
     };
 
     fetchSuperuserStatus();
   }, [session]);
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <div>
-      {isSuperuser === true ? <AddBook /> : <Contribute />}
-    </div>
-  );
+  return [isSuperuser, loading];
 };
 
-export default ContributePage;
+export default useSuperuserStatus;

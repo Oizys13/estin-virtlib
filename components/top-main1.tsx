@@ -48,6 +48,7 @@ const TopMain1: NextPage<TopMain1Type> = ({
 
 
   return (
+    
     <header
       className={`  self-stretch flex flex-row items-center justify-center w-full max-w-full z-[2] text-left text-xl text-dimgray-600 font-inter ${className}`}
       

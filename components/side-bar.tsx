@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useMemo, type CSSProperties, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import useSuperuserStatus from '@/pages/lib/useSuperuserStatus';
 
 export type SideBarType = {
   className?: string;
@@ -83,22 +84,22 @@ const SideBar: NextPage<SideBarType> = ({
 
   const router = useRouter();
 
-  const onHomeMenuContainerClick = useCallback(() => {
-    router.push("/home");
+  const RedirectHome = useCallback(() => {
+    router.push("/main");
   }, [router]);
 
-  const onSearchMenuContainerClick1 = useCallback(() => {
+  const RedirectSearch = useCallback(() => {
     router.push("/search");
   }, [router]);
-
-  const onMyShelfMenuClick = useCallback(() => {
-    router.push("/my-shelf");
-  }, [router]);
-
-  const onFavouriteMenuContainerClick1 = useCallback(() => {
+  const Redirectcontribute = useCallback(() => {
     router.push("/contribute");
   }, [router]);
+  const RedirectStats = useCallback(() => {
+    router.push("/statistics");
+  }, [router]);
 
+  const [isSuperuser, loading] = useSuperuserStatus();
+  
   return (
     <div
       className={`absolute top-[48px] left-[35px] w-[306px] h-[500px] flex flex-row items-start justify-start z-[1] text-left text-xl text-gray-200 font-inter ${className}`}
@@ -116,18 +117,18 @@ const SideBar: NextPage<SideBarType> = ({
         <div className="self-stretch flex-1 flex flex-col items-start justify-start gap-[34px]">
           <div
             className="self-stretch flex flex-row items-start justify-start gap-3 cursor-pointer z-[1]"
-            onClick={onHomeMenuContainerClick}
+            onClick={RedirectHome}
           >
             <div className="flex flex-col items-start justify-start pt-px px-0 pb-0">
               <img
-                className="w-[23px] h-[23px] relative overflow-hidden shrink-0"
+                className="w-[23px] h-[23px] relative overflow-hidden shrink-0 bg"
                 loading="lazy"
                 alt=""
                 src="/heroiconsminihome1.svg"
               />
             </div>
             <a
-              className="[text-decoration:none] flex-1 relative text-[inherit] mq450:text-base"
+              className="[text-decoration:none] text-[#8A8A8A] flex-1 relative text-[inherit] mq450:text-base hover:text-[#4D4D4D]"
               style={homeStyle}
             >
               Home
@@ -136,18 +137,17 @@ const SideBar: NextPage<SideBarType> = ({
           <div className="self-stretch flex flex-row items-start justify-start py-0 px-px">
             <div
               className="flex-1 flex flex-row items-start justify-start gap-[11px] cursor-pointer z-[1]"
-              onClick={onSearchMenuContainerClick}
+              onClick={RedirectSearch}
             >
               <div className="flex flex-col items-start justify-start pt-px px-0 pb-0">
                 <img
-                  className="w-[23px] h-[23px] relative"
+                  className="w-[23px] h-[23px] relative  "
                   alt=""
                   src={search}
                 />
               </div>
               <div
-                className="flex-1 relative mq450:text-base"
-                style={search1Style}
+                className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]"
               >
                 Search
               </div>
@@ -156,7 +156,7 @@ const SideBar: NextPage<SideBarType> = ({
           <div className="self-stretch flex flex-row items-start justify-start py-0 px-[3px]">
             <div
               className="flex-1 flex flex-row items-start justify-start gap-3 cursor-pointer z-[1]"
-              onClick={onMyShelfMenuClick}
+
             >
               <div className="flex flex-col items-start justify-start pt-[2.5px] px-0 pb-0">
                 <img
@@ -166,7 +166,7 @@ const SideBar: NextPage<SideBarType> = ({
                   src="/bookshelf.svg"
                 />
               </div>
-              <div className="flex-1 relative mq450:text-base">My Shelf</div>
+              <div className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]">My Shelf</div>
             </div>
           </div>
           <div className="self-stretch flex flex-row items-start justify-start py-0 px-0.5">
@@ -182,14 +182,30 @@ const SideBar: NextPage<SideBarType> = ({
                   src={giveGift}
                 />
               </div>
-              <div
-                className="flex-1 relative shrink-0 mq450:text-base"
-                style={contributeStyle}
-              >
-                Contribute
-              </div>
+              <div className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]" onClick={Redirectcontribute}>Contribute</div>
             </div>
           </div>
+          {isSuperuser === true ? 
+          <div className="self-stretch flex flex-row items-start justify-start py-0 px-0.5">
+            <div
+              className="flex-1 flex flex-row items-start justify-start gap-3 cursor-pointer z-[1]"
+              
+            >
+              <div className="flex flex-col items-start justify-start pt-0.5 px-0 pb-0">
+                <img
+                  className="w-[21px] h-[21px] relative overflow-hidden shrink-0"
+                  loading="lazy"
+                  alt=""
+                  src={giveGift}
+                />
+              </div>
+              <div className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]" onClick={RedirectStats}>Statistics</div>
+            </div>
+          </div>
+          
+          : null
+          
+        }
         </div>
         <div className="w-[138px] flex flex-row items-start justify-start py-0 px-0.5 box-border text-mini">
           <div className="flex-1 flex flex-col items-start justify-start gap-[15px]">

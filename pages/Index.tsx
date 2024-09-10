@@ -13,15 +13,12 @@ const Login: NextPage = () => {
 
   const { status, data: session } = useSession();
   useEffect(() => {
-    if (status === "authenticated" && session) {
-      const email = session?.user?.email || ''; // Ensure email is a string
-      const username = session?.user?.name || ''; // Ensure username is a string
+    if (status === "authenticated") {
 
-      // Manually build the URL with query parameters
-      const url = `/main?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`;
-      router.push(url); // Navigate to the constructed URL
+    // Manually build the URL with query parameters
+      router.push('/main'); // Navigate to the constructed URL
     }
-  }, [status, session, router]);
+  }, [status,router]);
   return (
     <div className="w-full h-screen  relative bg-white overflow-hidden flex flex-row items-start justify-between py-2.5 pl-[214px] pr-[9px] box-border leading-[normal] tracking-[normal] gap-5 text-center text-21xl text-gray-500 font-montserrat mq900:pl-[53px] mq900:box-border mq1300:pl-[107px] mq1300:box-border mq1650:flex-wrap">
 

@@ -11,14 +11,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-    }
-
-    
-   
+    },
+    isSuperuser: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );
 
-const User = mongoose.models.users || mongoose.model("users", userSchema);
+// Use singular 'User' as the model name, and Mongoose will handle pluralizing it to 'users'
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;

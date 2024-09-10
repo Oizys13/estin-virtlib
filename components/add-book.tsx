@@ -5,7 +5,7 @@ import SideBar from './side-bar'
 
 const AddBook = () => {
     const [fileName, setFileName] = useState('No file chosen');
-    const handleFileChange = (e) => {
+    const handleFileChange = (e: any) => {
         const file = e.target.files[0];
         if (file) {
             setFileName(file.name);
@@ -109,7 +109,7 @@ const AddBook = () => {
                                         <span className='text-[#8E95A9]'>Updload pdf file</span>
                                         <div className=' w-[264px] h-[48px] border-[#CDD1DE] border-[1px] rounded-[4px] mt-2 px-3'>
 
-                                            <input type='file' id='fileInput' className='hidden' onChange={handleFileChange} />
+                                            <input type='file' id='fileInput' className='' onChange={handleFileChange} />
                                             <label htmlFor="fileInput" className='hidden w-[264px] h-[48px] text-black z-[0] border-[#CDD1DE] border-[1px] rounded-[4px] mt-2 px-3'>Upload</label>
                                         </div>
 

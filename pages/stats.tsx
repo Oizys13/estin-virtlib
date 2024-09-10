@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react';
 import TopMain1 from "@/components/top-main1";
 import SideBar from "@/components/side-bar";
+
 export const Statistics = () => {
+    const [expandedTable, setExpandedTable] = useState<string | null>(null); // To track which table is expanded
+
+    // Function to handle table expansion/collapse
+    const toggleTable = (tableName: string) => {
+        if (expandedTable === tableName) {
+            setExpandedTable(null); // Collapse the table if it's already expanded
+        } else {
+            setExpandedTable(tableName); // Expand the selected table
+        }
+    };
+
     return (
+        
         <div className="flex flex-col gap-2">
+            
             <div className="h-[994px] w-[1544px] relative bg-white leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
                 <img
-                    className="fixed object-cover  top-0 left-[-37.3px] w-full h-full"
+                    className="fixed object-cover top-0 left-[-37.3px] w-full h-full"
                     alt=""
                     src="/bg-vector1.svg"
                 />
                 <div className="absolute self-stretch top-[48px] left-[341px] bg-[#F3F3F7] rounded-3xs bg-whitesmoke-200 w-[1544px] overflow-y-auto flex flex-col items-start justify-start pb-[216px] box-border gap-5 max-w-full z-[1]">
-                    <div className="self-stretch h-full relative rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none bg-whitesmoke-200 shrink-0 hidden" />
                     <TopMain1
                         polygonIconTop="0"
                         polygonIconPosition="sticky"
@@ -19,10 +32,9 @@ export const Statistics = () => {
                         polygonIconLeft="unset"
                         polygonIconFlex="unset"
                         searchLabelOverflow="hidden"
-                        username={name!}
+                        username="John Doe" // Replace with dynamic user data
                     />
-                    {/* type page code here */}
-                    <div className="flex flex-col gap-5 justify-start mx-[50px]">
+                                        <div className="flex flex-col gap-5 justify-start mx-[50px]">
                         <div className='flex flex-row w-full'>
 
                             <span className='font-bold text-20pt left-0'>Dashboard</span>
@@ -78,102 +90,239 @@ export const Statistics = () => {
 
 
                         </div>
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <div className='flex flex-row justify-start gap-24'>
-                            <div className='h-[366px] w-[592px] px-[35px] py-[35px] bg-white rounded-[16px] shadow-lg'>
-                                <div className='flex relative  justify-between'>
-                                    <span className='left-3 text-[#1C2A53]'>Most Read Books</span>
-                                    <button className='text-[#555F7E]'>More</button>
-                                </div>
-                                <br />
-                                <br />
-                                <table className=''>
-                                    <thead className='flex justify-between items-center text-[#8E95A9] bg-[#F8F8F8] w-[528px] h-[48px] rounded-[4px] px-[10px]'>
-                                        <tr className='flex w-full'>
-                                            <th className="w-3/5 text-left">Title</th> {/* Larger space for the first column */}
-                                            <th className="w-1/5 text-left">Author</th>
-                                            <th className="w-1/5 text-left">Category</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                        <br /><br /><br /><br />
+                        
+                        {/* Conditional rendering of tables based on expandedTable */}
+                        {expandedTable === null && (
+                            <div className="flex flex-row gap-24">
+                                {/* Most Read Books Table */}
+                                <div className="h-[366px] w-[592px]  py-[35px] bg-white rounded-[16px] shadow-lg">
+                                    <div className="flex relative justify-between px-[35px]">
+                                        <span className="left-3 text-[#1C2A53]">Most Read Books</span>
+                                        <button onClick={() => toggleTable('books')} className="text-[#555F7E]">
+                                            More
+                                        </button>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <table className="w-full">
+                                        <thead className="flex justify-between items-center text-[#8E95A9] bg-[#F8F8F8] h-[48px] rounded-[4px] px-[10px]">
+                                            <tr className="flex w-full">
+                                                <th className="w-3/5 text-left">Title</th>
+                                                <th className="w-1/5 text-left">Author</th>
+                                                <th className="w-1/5 text-left">Category</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
                                             <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
                                             <td className='w-1/5'>nom lajjsdhfjkl</td>
                                             <td className='w-1/5'>Mathematics</td>
                                         </tr>
                                         <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
                                             <td className='w-1/5'>nom lajjsdhfjkl</td>
                                             <td className='w-1/5'>Mathematics</td>
                                         </tr>
                                         <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
                                             <td className='w-1/5'>nom lajjsdhfjkl</td>
                                             <td className='w-1/5'>Mathematics</td>
                                         </tr>
                                         <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Contribution Demands Table */}
+                                <div className="h-[366px] w-[716px]  py-[35px] bg-white rounded-[16px] shadow-lg">
+                                    <div className="flex relative justify-between px-[35px]">
+                                        <span className="left-3 text-[#1C2A53]">Contribution Demands</span>
+                                        <button onClick={() => toggleTable('contributions')} className="text-[#555F7E]">
+                                            More
+                                        </button>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <table className="w-full">
+                                        <thead className="flex justify-between items-center text-[#8E95A9] bg-[#F8F8F8] h-[48px] rounded-[4px] px-[10px]">
+                                            <tr className="flex w-full">
+                                                <th className="w-2/5 text-left">Title</th>
+                                                <th className="w-1/5 text-left">Author</th>
+                                                <th className="w-1/5 text-left">Category</th>
+                                                <th className="w-1/5 text-left">Student</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                            <td className='w-1/5'>Youcef Meh</td>
+                                        </tr>
+                                        <tr className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                            <td className='w-1/5'>Youcef Meh</td>
+                                        </tr>
+                                        <tr className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                            <td className='w-1/5'>Youcef Meh</td>
+                                        </tr>
+                                        <tr className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                            <td className='w-1/5'>Youcef Meh</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Expanded Most Read Books Table */}
+                        {expandedTable === 'books' && (
+                            <div className="w-[1356px] h-[800px] bg-white rounded-[16px] shadow-lg">
+                                <div className="flex relative justify-between px-[35px] py-[35px]">
+                                    <span className="text-[#1C2A53]">Most Read Books</span>
+                                    <button onClick={() => toggleTable('books')} className="text-[#555F7E]">
+                                        Less
+                                    </button>
+                                </div>
+                                <table className="w-full">
+                                    <thead className="flex justify-between items-center text-[#8E95A9] bg-[#F8F8F8] h-[48px] rounded-[4px] px-[10px]">
+                                        <tr className="flex w-full">
+                                            <th className="w-3/5 text-left">Title</th>
+                                            <th className="w-1/5 text-left">Author</th>
+                                            <th className="w-1/5 text-left">Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                        </tr>
+                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                        </tr>
+                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                        </tr>
+                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                        </tr>
+                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                        </tr>
+                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                        </tr>
+                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                        </tr>
+                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
                                             <td className='w-1/5'>nom lajjsdhfjkl</td>
                                             <td className='w-1/5'>Mathematics</td>
                                         </tr>
                                     </tbody>
                                 </table>
-
-
                             </div>
-                            <div className='h-[366px] w-[716px] px-[35px] py-[35px] bg-white rounded-[16px] shadow-lg'>
-                                <div className='flex relative  justify-between'>
-                                    <span className='left-3 text-[#1C2A53]'>Contribution Demands</span>
-                                    <button className='text-[#555F7E]'>More</button>
+                        )}
+
+                        {/* Expanded Contribution Demands Table */}
+                        {expandedTable === 'contributions' && (
+                            <div className="w-[1356px] h-[800px] bg-white rounded-[16px] shadow-lg">
+                                <div className="flex relative justify-between px-[35px] py-[35px]">
+                                    <span className="text-[#1C2A53]">Contribution Demands</span>
+                                    <button onClick={() => toggleTable('contributions')} className="text-[#555F7E]">
+                                        Less
+                                    </button>
                                 </div>
-                                <br />
-                                <br />
-                                <table className=''>
-                                    <thead>
-                                        <tr className='flex justify-between items-center text-[#8E95A9] bg-[#F8F8F8] w-[646px] h-[48px] rounded-[4px] px-[10px]'>
-                                            <th className="w-2/5 text-left">Title</th> {/* Slightly reduced space for the first column */}
+                                <table className="w-full">
+                                    <thead className="flex justify-between items-center text-[#8E95A9] bg-[#F8F8F8] h-[48px] rounded-[4px] px-[10px]">
+                                        <tr className="flex w-full">
+                                            <th className="w-2/5 text-left">Title</th>
                                             <th className="w-1/5 text-left">Author</th>
                                             <th className="w-1/5 text-left">Category</th>
                                             <th className="w-1/5 text-left">Student</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr className='flex justify-between items-center w-[646px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
                                             <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
                                             <td className='w-1/5'>nom lajjsdhfjkl</td>
                                             <td className='w-1/5'>Mathematics</td>
                                             <td className='w-1/5'>Youcef Meh</td>
                                         </tr>
-                                        <tr className='flex justify-between items-center w-[646px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td>
+                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
                                             <td className='w-1/5'>nom lajjsdhfjkl</td>
                                             <td className='w-1/5'>Mathematics</td>
                                             <td className='w-1/5'>Youcef Meh</td>
                                         </tr>
-                                        <tr className='flex justify-between items-center w-[646px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td>
+                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
                                             <td className='w-1/5'>nom lajjsdhfjkl</td>
                                             <td className='w-1/5'>Mathematics</td>
                                             <td className='w-1/5'>Youcef Meh</td>
                                         </tr>
-                                        <tr className='flex justify-between items-center w-[646px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td>
+                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                            <td className='w-1/5'>Youcef Meh</td>
+                                        </tr>
+                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                            <td className='w-1/5'>Youcef Meh</td>
+                                        </tr>
+                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                            <td className='w-1/5'>Youcef Meh</td>
+                                        </tr>
+                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
+                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
+                                            <td className='w-1/5'>Mathematics</td>
+                                            <td className='w-1/5'>Youcef Meh</td>
+                                        </tr>
+                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
                                             <td className='w-1/5'>nom lajjsdhfjkl</td>
                                             <td className='w-1/5'>Mathematics</td>
                                             <td className='w-1/5'>Youcef Meh</td>
                                         </tr>
                                     </tbody>
                                 </table>
-
-
                             </div>
-
-                        </div>
+                        )}
                     </div>
-
                 </div>
                 <SideBar
                     propPosition="absolute"
@@ -192,5 +341,5 @@ export const Statistics = () => {
                 />
             </div>
         </div>
-    )
-}
+    );
+};
