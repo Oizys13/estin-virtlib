@@ -1,45 +1,68 @@
+import { google, drive_v3 } from 'googleapis';
 import { NextResponse } from 'next/server';
-import multer from 'multer';
-import { connectToDatabase, getGFS } from '@/pages/lib/mongodb';
 import { Readable } from 'stream';
 
-const upload = multer({ storage: multer.memoryStorage() });
+// Function to authenticate with Google Drive
+async function authenticate(): Promise<drive_v3.Options['auth']> {
+  const auth = new google.auth.GoogleAuth({
+    keyFile: 'driveAPI.json', // Path to your service account JSON file
+    scopes: ['https://www.googleapis.com/auth/drive.file'],
+  });
 
-const handler = async (req: Request) => {
-    if (req.method === 'POST') {
-        const formData = new FormData();
-        formData.append('pdf', req?.body?.pdf);
+  // Return the authenticated client
+  return await auth.getClient();
+}
 
-        try {
-            await connectToDatabase();
-            const gfs = getGFS();
+async function uploadToGoogleDrive(file: File) {
+  const authClient = await authenticate();
+  
+  const drive = google.drive({
+    version: 'v3',
+    auth: authClient as drive_v3.Options['auth'], // Ensure correct type for the auth client
+  });
 
-            const uploadStream = gfs.createWriteStream({
-                filename: req.body?.pdf.originalname,
-                contentType: req.body?.pdf.mimetype
-            });
+  const fileMetadata = {
+    name: file.name, // Original filename
+    parents: ['1SjGFApcDgzPxnqTncdIQghrV23ZdoVmR'], // Folder ID where the file will be uploaded
+  };
 
-            const bufferStream = new Readable();
-            bufferStream.push(req.body.pdf.buffer);
-            bufferStream.push(null);
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const stream = new Readable();
+  stream.push(buffer);
+  stream.push(null); // Indicates the end of the stream
 
-            bufferStream.pipe(uploadStream);
+  const media = {
+    mimeType: file.type,
+    body: stream,
+  };
 
-            uploadStream.on('close', () => {
-                return NextResponse.json({ message: 'File uploaded successfully!' });
-            });
+  const response = await drive.files.create({
+    requestBody: fileMetadata,
+    media: media,
+    fields: 'id',
+  });
 
-            uploadStream.on('error', (err) => {
-                console.error('Error uploading file:', err);
-                return NextResponse.json({ error: 'Failed to upload file.' }, { status: 500 });
-            });
-        } catch (err) {
-            console.error('Error connecting to MongoDB:', err);
-            return NextResponse.json({ error: 'Server error.' }, { status: 500 });
-        }
-    } else {
-        return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
+  return response.data.id; // Return file ID from Google Drive
+}
+
+export async function POST(request: Request) {
+  try {
+    const formData = await request.formData();
+    const file = formData.get('file') as File | null;
+
+    if (!file) {
+      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
-};
 
-export default handler;
+    // Upload file to Google Drive
+    const fileId = await uploadToGoogleDrive(file);
+
+    return NextResponse.json({
+      message: 'File uploaded successfully to Google Drive',
+      fileId,
+    });
+  } catch (error) {
+    console.error('Error uploading file to Google Drive:', error);
+    return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 });
+  }
+}

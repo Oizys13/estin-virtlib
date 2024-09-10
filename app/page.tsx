@@ -1,8 +1,3 @@
-
-import ContributeComplete from "@/pages/contribute-complete";
-import HomePage from "@/pages/home-page";
-import HomeProfile from "@/pages/home-profile";
-import HomeNew from "@/pages/homebackup";
 import Login from "@/pages/Index";
 
 
