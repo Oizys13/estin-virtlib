@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TopMain1 from "@/components/top-main1";
 import SideBar from "@/components/side-bar";
+
 
 export const Statistics = () => {
     const [expandedTable, setExpandedTable] = useState<string | null>(null); // To track which table is expanded
@@ -14,10 +15,74 @@ export const Statistics = () => {
         }
     };
 
+    const [bookRequests, setBookRequests] = useState([]);
+    const [booklist, setBookList] = useState([]);
+
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchBookRequests = async () => {
+            try {
+                const response = await fetch('/api/get-requests-list'); // Adjust to the correct route
+                if (!response.ok) {
+                    throw new Error('Failed to fetch book requests');
+                }
+
+                const data = await response.json();
+                setBookRequests(data);
+            } catch (err) {
+                setError(err.message);
+
+            }
+        };
+
+        fetchBookRequests();
+
+    }, []);
+    useEffect(() => {
+        const fetchBookRequests = async () => {
+            try {
+                const response = await fetch('/api/get-book-list'); // Adjust to the correct route
+                if (!response.ok) {
+                    throw new Error('Failed to fetch book list');
+                }
+
+                const data = await response.json();
+                setBookList(data);
+            } catch (err) {
+                setError(err.message);
+
+            }
+        };
+
+        fetchBookRequests();
+    }, []);
+
+    const requestsPerPage = 5;
+    const requestsTotalPages = Math.ceil(bookRequests.length / requestsPerPage);
+    const booksTotalPages = Math.ceil(booklist.length / requestsPerPage);
+    const [currentPage, setCurrentPage] = useState(1);
+    const currentRequests = expandedTable === 'contributions'
+        ? bookRequests.slice((currentPage - 1) * requestsPerPage, currentPage * requestsPerPage)
+        : bookRequests.slice(0, 4);
+
+    const currentBooks = expandedTable === 'books'
+        ? booklist.slice((currentPage - 1) * requestsPerPage, currentPage * requestsPerPage)
+        : booklist.slice(0, 4);
+
+    const nextPage = () => {
+        if (currentPage < requestsTotalPages) setCurrentPage(currentPage + 1);
+    };
+
+    // Handle Previous Page
+    const previousPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
+
     return (
-        
+
         <div className="flex flex-col gap-2">
-            
+
             <div className="h-[994px] w-[1544px] relative bg-white leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
                 <img
                     className="fixed object-cover top-0 left-[-37.3px] w-full h-full"
@@ -34,7 +99,7 @@ export const Statistics = () => {
                         searchLabelOverflow="hidden"
                         username="John Doe" // Replace with dynamic user data
                     />
-                                        <div className="flex flex-col gap-5 justify-start mx-[50px]">
+                    <div className="flex flex-col gap-5 justify-start mx-[50px]">
                         <div className='flex flex-row w-full'>
 
                             <span className='font-bold text-20pt left-0'>Dashboard</span>
@@ -91,7 +156,7 @@ export const Statistics = () => {
 
                         </div>
                         <br /><br /><br /><br />
-                        
+
                         {/* Conditional rendering of tables based on expandedTable */}
                         {expandedTable === null && (
                             <div className="flex flex-row gap-24">
@@ -114,32 +179,19 @@ export const Statistics = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                        <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                        <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                        <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
+                                            {currentBooks.map((request, index) => (
+                                                <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                                    <td className='w-3/5'>{request.title}</td> {/* Use same widths for alignment */}
+                                                    <td className='w-1/5'>{request.author}</td>
+                                                    <td className='w-1/5'>{request.category}</td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
 
                                 {/* Contribution Demands Table */}
-                                <div className="h-[366px] w-[716px]  py-[35px] bg-white rounded-[16px] shadow-lg">
+                                <div className="h-[366px] w-[750px] py-[35px] bg-white rounded-[16px] shadow-lg">
                                     <div className="flex relative justify-between px-[35px]">
                                         <span className="left-3 text-[#1C2A53]">Contribution Demands</span>
                                         <button onClick={() => toggleTable('contributions')} className="text-[#555F7E]">
@@ -158,30 +210,14 @@ export const Statistics = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <tr className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                        <tr className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                        <tr className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                        <tr className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
+                                            {currentRequests.map((request, index) => (
+                                                <tr key={index} className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                                    <td className='w-2/5'>{request.title}</td> {/* Title */}
+                                                    <td className='w-1/5'>{request.author}</td> {/* Author */}
+                                                    <td className='w-1/5'>{request.category}</td> {/* Category */}
+                                                    <td className='w-1/5 text-10pt'>{request.user}</td> {/* Student */}
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
@@ -206,48 +242,27 @@ export const Statistics = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
-                                    <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-3/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                        </tr>
+                                        {currentBooks.map((request, index) => (
+                                            <tr className='flex w-full justify-between items-center h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                                <td className='w-3/5'>{request.title}</td> {/* Use same widths for alignment */}
+                                                <td className='w-1/5'>{request.author}</td>
+                                                <td className='w-1/5'>{request.category}</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
+                                {/* Pagination Controls */}
+                                {booklist.length > requestsPerPage && (
+                                    <div className="flex justify-between px-4 py-2">
+                                        <button onClick={previousPage} disabled={currentPage === 1} className="px-4 py-2 bg-gray-200 rounded">
+                                            Previous
+                                        </button>
+                                        <span>Page {currentPage} of {booksTotalPages}</span>
+                                        <button onClick={nextPage} disabled={currentPage === booksTotalPages} className="px-4 py-2 bg-gray-200 rounded">
+                                            Next
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -270,56 +285,28 @@ export const Statistics = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
-                                    <tr className='flex justify-between items-center w-[1356px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
-                                            <td className='w-2/5'>Deco accessory</td> {/* Use same widths for alignment */}
-                                            <td className='w-1/5'>nom lajjsdhfjkl</td>
-                                            <td className='w-1/5'>Mathematics</td>
-                                            <td className='w-1/5'>Youcef Meh</td>
-                                        </tr>
+                                        {currentRequests.map((request, index) => (
+                                            <tr key={index} className='flex justify-between items-center w-[716px] h-[48px] px-[10px] text-[#555F7E] border-[#F8F8F8] border-b-2'>
+                                                <td className='w-2/5'>{request.title}</td> {/* Title */}
+                                                <td className='w-1/5'>{request.author}</td> {/* Author */}
+                                                <td className='w-1/5'>{request.category}</td> {/* Category */}
+                                                <td className='w-1/5 text-10pt'>{request.user}</td> {/* Student */}
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
+                                {/* Pagination Controls */}
+                                {bookRequests.length > requestsPerPage && (
+                                    <div className="flex justify-between px-4 py-2">
+                                        <button onClick={previousPage} disabled={currentPage === 1} className="px-4 py-2 bg-gray-200 rounded">
+                                            Previous
+                                        </button>
+                                        <span>Page {currentPage} of {requestsTotalPages}</span>
+                                        <button onClick={nextPage} disabled={currentPage === requestsTotalPages} className="px-4 py-2 bg-gray-200 rounded">
+                                            Next
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>

@@ -12,10 +12,7 @@ const bookSchema = new mongoose.Schema({
     downloadable: { type: String },
     hardCopy: { type: String },
     publisher: { type: String },
-    pdf: {
-        data: Buffer,
-        contentType: String
-    }
+    url: {type: String}
 }, { timestamps: true });
 
 const Book = mongoose.models.Book || mongoose.model('Book', bookSchema);

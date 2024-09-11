@@ -3,12 +3,7 @@ import type { NextPage } from "next";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import SearchBarArea from "../components/search-bar-area";
-import BooksArea from "../components/books-area";
-import GroupComponent3 from "../components/group-component3";
 import SideBar from "../components/side-bar";
-import TopMain1 from "@/components/top-main1";
-import GroupComponent2 from "@/components/group-component2";
-import GroupComponent from "@/components/group-component";
 import GroupComponent1 from "@/components/group-component1";
 
 const Search: NextPage = () => {

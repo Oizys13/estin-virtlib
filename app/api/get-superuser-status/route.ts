@@ -5,7 +5,7 @@ import User from '@/Model/User';
 // Define the API route handler
 export async function POST(request: Request) {
   try {
-    await connectMongoDB();
+    connectMongoDB();
 
     const { email } = await request.json();
 

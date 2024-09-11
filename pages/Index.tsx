@@ -14,9 +14,7 @@ const Login: NextPage = () => {
   const { status, data: session } = useSession();
   useEffect(() => {
     if (status === "authenticated") {
-
-    // Manually build the URL with query parameters
-      router.push('/main'); // Navigate to the constructed URL
+      router.push('/main'); 
     }
   }, [status,router]);
   return (

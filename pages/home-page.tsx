@@ -1,18 +1,33 @@
 "use client";
 import type { NextPage } from "next";
 
-import { useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import TopMain1 from "@/components/top-main1";
-import SideBar from "@/components/side-bar";
 import Carousel from "@/components/carousel";
 import NewsNewArrivals from "@/components/news-new-arrivals";
 import BookItemContainer from "@/components/book-item-container";
+import { useEffect, useState } from "react";
 
 const HomePage: NextPage = () => {
-  const searchParams = useSearchParams();
-  const email = searchParams?.get("email");
-  const name = searchParams?.get("username");
+  const [booklist, setBookList] = useState([]);
+  useEffect(() => {
+    const fetchBookRequests = async () => {
+        try {
+            const response = await fetch('/api/get-book-list'); // Adjust to the correct route
+            if (!response.ok) {
+                throw new Error('Failed to fetch book list');
+            }
+
+            const data = await response.json();
+            setBookList(data);
+        } catch (err) {
+            setError(err.message);
+
+        }
+    };
+
+    fetchBookRequests();
+}, []);
+
+const book =  booklist[0];
 
   return (
         <div className="overflow-y-auto scrollbar-hidden ">
