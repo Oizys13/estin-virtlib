@@ -1,21 +1,34 @@
 import type { NextPage } from "next";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export type SearchBarAreaType = {
   className?: string;
 };
-
-const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
+const SearchBarArea:  React.FC<SearchBarProps> = ({ onSearch }) => {
   const router = useRouter();
+
 
   const onGroupContainerClick = useCallback(() => {
     router.push("/search1");
   }, [router]);
 
+  const [query, setQuery] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
+  const handleSearch = () => {
+    onSearch(query);
+  };
+
   return (
     <header
-      className={`self-stretch rounded-tl-none rounded-tr-3xs rounded-b-none [background:linear-gradient(180deg,_#fff,_#f3f3f7_66.67%,_rgba(243,_243,_247,_0.88))] flex flex-col items-start justify-start pt-[38px] px-11 pb-[7px] box-border gap-[31px] max-w-full z-[2] text-center text-xl text-dimgray-600 font-inter ${className}`}
+      className={`self-stretch rounded-tl-none rounded-tr-3xs rounded-b-none [background:linear-gradient(180deg,_#fff,_#f3f3f7_66.67%,_rgba(243,_243,_247,_0.88))] flex flex-col items-start justify-start pt-[38px] px-11 pb-[7px] box-border gap-[31px] max-w-full z-[2] text-center text-xl text-dimgray-600 font-inter `}
     >
       <div className="self-stretch flex flex-row items-start justify-start py-0 pl-0.5 pr-px box-border top-[0] z-[99] sticky max-w-full">
         <div className="flex-1 flex flex-row items-start justify-start gap-7 max-w-full">
@@ -39,6 +52,8 @@ const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
                 className="w-full [border:none] [outline:none] bg-[transparent] h-9 flex-1 flex flex-col items-start justify-start pt-3 px-0 pb-0 box-border font-inter text-xl text-silver-100 min-w-[137px]"
                 placeholder="Search"
                 type="text"
+                value={query}
+        onChange={handleInputChange}
               />
             </div>
             <div className="flex flex-col items-start justify-start pt-2 px-0 pb-0">
@@ -49,6 +64,7 @@ const SearchBarArea: NextPage<SearchBarAreaType> = ({ className = "" }) => {
                     loading="lazy"
                     alt=""
                     src="/search.svg"
+                    onClick={handleSearch}
                   />
                 </div>
                 <div className="h-[34px] w-px relative border-gainsboro-300 border-r-[1px] border-solid box-border z-[1]" />

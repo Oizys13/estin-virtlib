@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Quote = ({ quote, author }) => {
+const Quote = ({ quote }) => {
   return (
     <div>
 

@@ -1,53 +1,51 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { google } from 'googleapis';
+import { NextResponse } from 'next/server';
+import { google, drive_v3 } from 'googleapis';
 
-// Function to authenticate with Google Drive
-async function authenticate() {
+async function authenticate(): Promise<drive_v3.Options['auth']> {
   const auth = new google.auth.GoogleAuth({
-    keyFile: 'driveAPI.json', // Path to your service account JSON file
+    keyFile: 'driveAPI.json',
     scopes: ['https://www.googleapis.com/auth/drive.readonly'],
   });
 
-  return await auth.getClient();
+  return auth.getClient();
 }
 
-// Function to extract file ID from the file link
-function getFileIdFromLink(fileLink: string): string {
-  const match = fileLink.match(/\/d\/(.*?)(\/|$)/);
-  if (!match || !match[1]) {
-    throw new Error('Invalid file link');
-  }
-  return match[1];
+async function getDriveClient(): Promise<drive_v3.Drive> {
+  const auth = await authenticate();
+  const drive = google.drive({ version: 'v3', auth });
+  return drive;
 }
 
-// API route handler to get the thumbnail of a file
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { fileLink } = req.query as { fileLink: string };
-
-  if (!fileLink) {
-    return res.status(400).json({ error: 'File link is required' });
-  }
-
+export async function GET(request: Request) {
   try {
-    const auth = await authenticate();
-    const drive = google.drive({ version: 'v3', auth });
-    
-    const fileId = getFileIdFromLink(fileLink);
+    const url = new URL(request.url);
+    const fileLink = url.searchParams.get('fileLink');
+    if (!fileLink) {
+      return NextResponse.json({ error: 'fileLink parameter is required' }, { status: 400 });
+    }
 
-    // Get file metadata to fetch thumbnail link
+    const fileId = fileLink.split('/d/')[1]?.split('/')[0]; // Extract fileId from fileLink
+
+    if (!fileId) {
+      return NextResponse.json({ error: 'Invalid fileLink format' }, { status: 400 });
+    }
+
+    const drive = await getDriveClient();
     const response = await drive.files.get({
       fileId,
       fields: 'thumbnailLink',
     });
 
     const thumbnailLink = response.data.thumbnailLink;
-    
     if (!thumbnailLink) {
-      return res.status(404).json({ error: 'Thumbnail not found' });
+      return NextResponse.json({ error: 'Thumbnail not found' }, { status: 404 });
     }
 
-    res.status(200).json({ thumbnailLink });
+    return NextResponse.json({ thumbnailLink }, { status: 200 });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return NextResponse.json(
+      { error: 'Error fetching thumbnail', message: error.message },
+      { status: 500 }
+    );
   }
 }

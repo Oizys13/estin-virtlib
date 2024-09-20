@@ -1,32 +1,65 @@
 "use client"
-import type { NextPage } from "next";
-import { useCallback } from "react";
-import TopMain1 from "../components/top-main1";
-import BookPreviewCard from "../components/book-preview-card";
-import { useRouter } from "next/navigation";
-import SideBar from "@/components/side-bar";
+import SideBar from '@/components/side-bar';
+import TopMain1 from '@/components/top-main1';
+import BookPreview from '@/pages/book-preview';
+import axios from 'axios';
+// /app/book/[isbn]/page.tsx
 
-const BookPreview: NextPage = () => {
-  const router = useRouter();
+import { useParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
-  const onHomeMenuContainerClick = useCallback(() => {
-    router.push("/home");
-  }, [router]);
+const BookDetailPage = () => {
+  const { isbn } = useParams(); // Use useParams to get the dynamic route parameter
+  const [book, setBook] = useState<any | null>(null); // Initialize book as null
+  const [thumbnail, setThumbnail] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const onSearchMenuContainerClick = useCallback(() => {
-    router.push("/search");
-  }, [router]);
+  useEffect(() => {
+    if (isbn) {
+      fetch(`/api/get-book/${isbn}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch book details');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setBook(data);  // Set book data
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message || 'Error fetching book details');
+          setLoading(false);
+        });
+    }
+  }, [isbn]);
 
-  const onMyShelfMenuClick = useCallback(() => {
-    router.push("/my-shelf");
-  }, [router]);
+  const fetchThumbnail = useCallback(async () => {
+    if (!book?.url) return;  // Ensure book and book.url exist
+    try {
+      const response = await axios.get('/api/get-book-thumbnail', {
+        params: { fileLink: book.url }, // Ensure parameter name matches API
+      });
+      setThumbnail(response.data.thumbnailLink);
+    } catch (err) {
+      console.log('Failed to fetch thumbnail:', err);
+    }
+  }, [book?.url]);
 
-  const onFavouriteMenuContainerClick = useCallback(() => {
-    router.push("/contribute");
-  }, [router]);
+  useEffect(() => {
+    fetchThumbnail();
+  }, [fetchThumbnail]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
-    <div className="w-full h-[1080px] relative bg-white leading-[normal] tracking-[normal] text-left text-3xl text-dimgray-600 font-inter mq1300:h-auto mq1300:min-h-[1080]">
+    <div>
+      {book ? (
+       
+      
+      <div className="w-full h-[1080px] relative bg-white leading-[normal] tracking-[normal] text-left text-3xl text-dimgray-600 font-inter mq1300:h-auto mq1300:min-h-[1080]">
       <img
         className="fixed object-cover top-0 left-[-37.3px] w-full h-full"
         alt=""
@@ -59,7 +92,7 @@ const BookPreview: NextPage = () => {
               className="self-stretch flex-1 relative rounded-[5px] max-w-full overflow-hidden max-h-full object-cover"
               loading="lazy"
               alt=""
-              src="/rectangle-19@2x.png"
+              src={thumbnail}
             />
           </div>
         </div>
@@ -68,11 +101,12 @@ const BookPreview: NextPage = () => {
             <div className="self-stretch flex flex-row items-start justify-start gap-[158px] max-w-full mq1125:flex-wrap">
               <div className="flex-1 flex flex-col items-start justify-start gap-[29.5px] min-w-[327px] max-w-full">
                 <div className="w-[429px] flex flex-col items-start justify-start gap-1.5 max-w-full">
-                  <h1 className="m-0 text-30pt whitespace-nowrap self-stretch relative text-16xl leading-[45px] font-normal font-[inherit] z-[1] mq450:text-2xl mq450:leading-[27px] mq800:text-9xl mq800:leading-[36px]">{`Don’t Make Me Think `}</h1>
+                  <h1 className="m-0 text-30pt whitespace-nowrap self-stretch relative text-16xl leading-[45px] font-normal font-[inherit] z-[1] mq450:text-2xl mq450:leading-[27px] mq800:text-9xl mq800:leading-[36px]">
+                    {book.title}</h1>
                   <div className="w-72 h-[30px] text-12pt  relative inline-block shrink-0 z-[1]">
                     {`By `}
                     <span className="[text-decoration:underline] text-12pt">
-                      Steve Krug
+                    {book.author}
                     </span>
                     , 2000
                   </div>
@@ -88,28 +122,28 @@ const BookPreview: NextPage = () => {
                   <div className="flex-1 flex flex-col items-start justify-start gap-[43px] min-w-[183px]">
                     <div className="self-stretch flex flex-row items-start justify-start gap-[17px]">
                       <div className="flex-1 flex flex-col items-start justify-start gap-[9px]">
-                        <b className="self-stretch relative text-12pt whitespace-nowrap text-sm z-[1]">
-                          Availability
+                        <b className="self-stretch relative text-18pt whitespace-nowrap text-sm z-[1]">
+                          Details 
                         </b>
-                        <div className="flex flex-row items-start justify-start py-0 pl-[23px] pr-[25px]">
+                        <div className="flex flex-row items-start justify-start py-0  pr-[25px]">
                           <h3 className="m-0 relative text-inherit text-12pt whitespace-nowrap font-normal font-[inherit] inline-block min-w-[84px] z-[1]">
-                            Hard Copy
+                            Hard Copy : {book.hardCopy}
                           </h3>
                         </div>
-                        <div className="self-stretch flex flex-row items-start justify-start py-0 pl-[22px] pr-[26px]">
+                        <div className="self-stretch flex flex-row items-start justify-start py-0  pr-[26px]">
                           <h3 className="m-0 flex-1 relative text-12pt whitespace-nowrap text-inherit leading-[150%] font-normal font-[inherit] z-[1]">
-                            E - Book
+                            Pages : {book.numPages}
                           </h3>
                         </div>
-                        <div className="flex flex-row items-start justify-start py-0 pl-[21px] pr-[27px]">
+                        <div className="flex flex-row items-start justify-start py-0  pr-[27px]">
                           <h3 className="m-0 relative text-12pt whitespace-nowrap text-inherit leading-[150%] font-normal font-[inherit] inline-block min-w-[84px] z-[1]">
-                            Audio book
+                            Category : {book.category}
                           </h3>
                         </div>
                       </div>
                       
                     </div>
-                    <button className="cursor-pointer [border:none] pt-1.5 px-2.5 pb-[7px] bg-coral-100 w-[209px] rounded-[10px] flex flex-row items-start justify-start box-border z-[1] hover:bg-coral-200">
+                    <button onClick={() => window.open(book.url, '_blank')} className="cursor-pointer [border:none]   bg-coral-100 w-[209px] rounded-[10px] flex flex-row items-start justify-start box-border z-[1] hover:bg-coral-200">
                       <div className="h-[61px] w-[209px] bg-[#F27851] relative rounded-[10px] bg-coral-100 hidden" />
                       <span className="h-[61px] flex-1 relative text-xl leading-[12px] bg-[#F27851] rounded-[5px] font-semibold font-inter text-white text-center flex items-center justify-center z-[1] mq450:text-base mq450:leading-[10px]">
                         Download
@@ -119,7 +153,7 @@ const BookPreview: NextPage = () => {
                   <div className="w-[209px] flex flex-col items-end justify-start gap-[65px] min-w-[209px] ml-[-34px] text-white mq450:flex-1 mq450:ml-0">
                     
                     <button
-                      className="cursor-pointer [border:none] py-0 pl-2.5 pr-px bg-forestgreen-200 self-stretch rounded-8xs flex flex-row items-start justify-start gap-[9px] z-[1]"
+                      className="cursor-pointer [border:none]  bg-forestgreen-200 self-stretch rounded-8xs flex flex-row items-start justify-start gap-[9px] z-[1]"
                       
                     >
                       <div className="self-stretch w-[209px] relative   hidden" />
@@ -153,14 +187,18 @@ const BookPreview: NextPage = () => {
         propFlex="unset"
         group3="/group-3@2x.png"
         propTextDecoration="unset"
-        onSearchMenuContainerClick={onSearchMenuContainerClick}
+        
         search="/search-1.svg"
         propColor="#8a8a8a"
         giveGift="/give-gift2.svg"
         propColor1="#4d4d4d"
       />
+    </div> ) : (
+        <p>Book not found</p>
+      )}
     </div>
+    
   );
 };
 
-export default BookPreview;
+export default BookDetailPage;
