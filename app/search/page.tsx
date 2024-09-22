@@ -1,6 +1,5 @@
 "use client"
-import SideBar from '@/components/side-bar'
-import TopMain1 from '@/components/top-main1'
+
 import Search from '@/pages/search-page'
 import React from 'react'
 

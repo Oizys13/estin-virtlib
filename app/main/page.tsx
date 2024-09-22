@@ -37,7 +37,7 @@ export default function Main() {
                             alt=""
                             src="/bg-vector1.svg"
                         />
-                        <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden self-stretch top-[48px] left-[341px] bg-[#F3F3F7] rounded-3xs  w-[1544px] overflow-y-auto flex flex-col items-start justify-start pb-0 box-border gap-5 max-w-full z-[1]">
+                        <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden self-stretch top-[48px] left-[341px] bg-[#F3F3F7] rounded-3xs  w-[1544px]  flex flex-col items-start justify-start pb-0 box-border gap-5 max-w-full z-[1]">
                             <div className="h-full self-stretch  relative rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none shrink-0 hidden" />
                             <TopMain1
                                 polygonIconTop="0"

@@ -1,7 +1,7 @@
 "use client"
 import SideBar from '@/components/side-bar';
 import TopMain1 from '@/components/top-main1';
-import BookPreview from '@/pages/book-preview';
+import { useSession } from 'next-auth/react';
 import axios from 'axios';
 // /app/book/[isbn]/page.tsx
 
@@ -14,6 +14,7 @@ const BookDetailPage = () => {
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession(); // Move useSession hook to the top level of the component
 
   useEffect(() => {
     if (isbn) {
@@ -50,6 +51,21 @@ const BookDetailPage = () => {
   useEffect(() => {
     fetchThumbnail();
   }, [fetchThumbnail]);
+
+ 
+
+  const handleDownloadClick = async () => {
+    window.open(book.url, '_blank');
+    const user = session?.user?.email;
+  
+    try {
+      // Send user and array of books
+      await axios.post('/api/create-reading', { userEmail: user, bookId: book._id });
+    } catch (err) {
+      console.log('Failed to register reading:', err);
+    }
+  };
+  
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -143,10 +159,10 @@ const BookDetailPage = () => {
                       </div>
                       
                     </div>
-                    <button onClick={() => window.open(book.url, '_blank')} className="cursor-pointer [border:none]   bg-coral-100 w-[209px] rounded-[10px] flex flex-row items-start justify-start box-border z-[1] hover:bg-coral-200">
+                    <button onClick={handleDownloadClick} className="cursor-pointer [border:none]   bg-coral-100 w-[209px] rounded-[10px] flex flex-row items-start justify-start box-border z-[1] hover:bg-coral-200">
                       <div className="h-[61px] w-[209px] bg-[#F27851] relative rounded-[10px] bg-coral-100 hidden" />
                       <span className="h-[61px] flex-1 relative text-xl leading-[12px] bg-[#F27851] rounded-[5px] font-semibold font-inter text-white text-center flex items-center justify-center z-[1] mq450:text-base mq450:leading-[10px]">
-                        Download
+                        Download  
                       </span>
                     </button>
                   </div>

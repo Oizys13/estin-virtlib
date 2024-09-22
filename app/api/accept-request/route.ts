@@ -7,20 +7,30 @@ export async function POST(request: Request) {
     await connectMongoDB();
     const { title, author, category, motive, user } = await request.json();
 
-    // Create the book request document
-    const newRequest = await BookRequest.create({
+    // Find the book request document
+    const existingRequest = await BookRequest.findOne({
       title,
       author,
       category,
       motive,
       user,
-      status: false, // default status
     });
 
-    return NextResponse.json(newRequest, { status: 201 });
+    if (!existingRequest) {
+      return NextResponse.json(
+        { error: "Book request not found" },
+        { status: 404 }
+      );
+    }
+
+    // Update the status field to true
+    existingRequest.status = true;
+    await existingRequest.save();
+
+    return NextResponse.json(existingRequest, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Error creating book request", message: error.message },
+      { error: "Error updating book request", message: (error as Error).message },
       { status: 500 }
     );
   }

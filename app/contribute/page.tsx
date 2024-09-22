@@ -36,9 +36,9 @@ const ContributePage = () => {
   }
 
   return (
-    <div>
-      {isSuperuser === true ? <AddBook /> : <Contribute />}
-    </div>
+<main className='h-full w-full overflow-y-auto scrollbar-hidden'>      
+  {isSuperuser === true ? <AddBook /> : <Contribute />}
+    </main>
   );
 };
 

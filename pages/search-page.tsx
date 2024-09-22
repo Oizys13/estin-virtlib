@@ -1,7 +1,7 @@
 "use client"
 import type { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SearchBarArea from "../components/search-bar-area";
 import SideBar from "../components/side-bar";
 import GroupComponent1 from "@/components/group-component1";
@@ -19,39 +19,51 @@ interface Book {
 
 const Search: NextPage = () => {
   const router = useRouter();
-
-  const onFavouriteMenuContainerClick = useCallback(() => {
-    router.push("/contribute");
-  }, [router]);
-  
+  const searchParams = useSearchParams();
+  const query = searchParams.get('query') || '';
+  const category = searchParams.get('category') || 'All'; // Extract the query from the URL
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchBooks = async (query = '') => {
+
+
+
+
+  const fetchBooks = async (searchQuery = '', selectedCategory = 'All') => {
     setLoading(true);
     setError(null);
 
     try {
-      const res = await fetch(`/api/search-books?query=${encodeURIComponent(query)}`);
+      const res = await fetch(`/api/search-books?query=${encodeURIComponent(searchQuery)}`);
       if (!res.ok) {
         throw new Error('Failed to fetch books');
       }
       const data = await res.json();
       setBooks(data);
+
+      // Filter the books based on category if it's not "All"
+      const filtered = selectedCategory === 'All'
+        ? data
+        : data.filter((book: Book) => book.category === selectedCategory);
+      setFilteredBooks(filtered);
     } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    // Fetch all books on initial load
-    fetchBooks();
-  }, []);
 
-  const handleSearch = (query: string) => {
-    fetchBooks(query); // Fetch books based on the search query
+  useEffect(() => {
+    // Fetch books based on both search query and category
+    fetchBooks(query, category);
+  }, [query, category]);
+
+  const handleSearch = (newQuery: string) => {
+    // Update URL and fetch books
+    router.push(`/search?query=${encodeURIComponent(newQuery)}`);
+    fetchBooks(newQuery);
   };
 
   return (
@@ -64,7 +76,7 @@ const Search: NextPage = () => {
       <div className="absolute bg-[#F3F3F7] top-[48px] left-[341px] rounded-3xs w-[1544px] h-[994px] overflow-y-auto scrollbar-hidden max-w-full z-[1] mq1125:h-auto mq1125:min-h-[994]">
         <div className="absolute top-[0px] left-[0px] w-full flex flex-col items-start justify-start pt-0 px-0 pb-6 box-border gap-[66px] max-w-full">
           <div className="w-full h-[1957px] absolute !m-[0] right-[0px] bottom-[-925px] left-[0px] rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none bg-whitesmoke-200" />
-          <SearchBarArea onSearch={handleSearch} />
+          <SearchBarArea onSearch={handleSearch} books={books} />
 
           <div
             className={`self-stretch flex flex-row items-start justify-start py-0 pl-11 pr-[46px] box-border max-w-full text-left text-xl text-dimgray-600 font-inter`}
@@ -91,9 +103,9 @@ const Search: NextPage = () => {
                   </div>
                 </div>
               </div>
-              {books.map((book) => (
-            <GroupComponent1 key={book.isbn} book={book}  /> // Render each book using GroupComponent1
-          ))}
+              {filteredBooks.map((book) => (
+                <GroupComponent1 key={book.isbn} book={book} /> // Render each book using GroupComponent1
+              ))}
 
             </div>
           </div>
@@ -112,7 +124,7 @@ const Search: NextPage = () => {
         propTextDecoration="unset"
         search="/search-11.svg"
         propColor="#4d4d4d"
-        onFavouriteMenuContainerClick={onFavouriteMenuContainerClick}
+
         giveGift="/give-gift.svg"
         propColor1="#8a8a8a"
       />

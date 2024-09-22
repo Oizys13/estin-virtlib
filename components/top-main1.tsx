@@ -1,5 +1,8 @@
+"use client"
 import type { NextPage } from "next";
-import { useMemo, type CSSProperties } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
+import {signOut, useSession } from "next-auth/react";
 
 export type TopMain1Type = {
   className?: string;
@@ -26,6 +29,8 @@ const TopMain1: NextPage<TopMain1Type> = ({
   email,
   username,
 }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const topMainStyle: CSSProperties = useMemo(() => {
     return {
       top: polygonIconTop,
@@ -41,8 +46,38 @@ const TopMain1: NextPage<TopMain1Type> = ({
     polygonIconLeft,
     polygonIconFlex,
   ]);
+  const router = useRouter();
+  const RedirectProfile = useCallback((e) => {
+    e.preventDefault();  
+    router.push("/profile");
+  }, []); 
 
+  const { status, data: session } = useSession();
+  useEffect(() => {
+
+     // Avoid redirecting when session is still loading
+    if (status === 'loading') return;
+
+    // Redirect if user is not authenticated
+    if (status === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [status, router]);
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
   return (
+    
     <header
       className={`self-stretch flex flex-row items-center justify-center w-full max-w-full z-[2] text-left text-xl text-dimgray-600 font-inter ${className}`}
     >
@@ -69,6 +104,9 @@ const TopMain1: NextPage<TopMain1Type> = ({
               className="w-full [border:none] [outline:none] bg-[transparent] h-9 flex-1 flex flex-col items-center justify-center box-border font-inter text-xl text-silver-100 min-w-[137px]"
               placeholder="Search"
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearchSubmit}
             />
           </div>
           <div className="flex flex-col items-center justify-center pt-2 px-0 pb-0">
@@ -79,7 +117,9 @@ const TopMain1: NextPage<TopMain1Type> = ({
                   loading="lazy"
                   alt=""
                   src="/search.svg"
+                  onClick={handleSearch}
                 />
+                
               </div>
               
               
@@ -89,17 +129,30 @@ const TopMain1: NextPage<TopMain1Type> = ({
         
         <span className="text-30pt font-[inter] font-medium text-[#4D4D4D] py-[20px]">Welcome Back, our dear student</span>
         
-        <div className="w-[50px] rounded-[40px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-14xl bg-white flex flex-row items-center justify-center   box-border z-[1]">
-          
-          <div className="flex flex-col items-center justify-center">
-            <img
-              className="w-[50px] h-[50px] relative rounded-[50%] object-cover z-[1]"
-              alt=""
-              src="/profile-picture@2x.png"
-            />
-         
-          </div>
-        </div>
+        <div className="relative z-[1000]"> {/* Ensure the container has a high z-index */}
+  <div 
+    className="w-[50px] rounded-[40px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-14xl bg-white flex flex-row items-center justify-center box-border cursor-pointer"
+    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+  >
+    <div className="flex flex-col items-center justify-center">
+      <img
+        className="w-[50px] h-[50px] relative rounded-[50%] object-cover"
+        alt=""
+        src="/profile.jpg"
+      />
+    </div>
+  </div>
+
+  {isDropdownOpen && (
+    <div className="fixed right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-[1010]">
+      <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+        <a href="" onClick={RedirectProfile} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Profile</a>
+        <a href="" onClick={() => signOut()} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+      </div>
+    </div>
+  )}
+</div>
+
       </div>
     </header>
   );

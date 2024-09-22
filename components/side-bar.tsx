@@ -117,7 +117,7 @@ const SideBar: NextPage<SideBarType> = ({
         <div className="self-stretch flex-1 flex flex-col items-start justify-start gap-[34px]">
           <div
             className="self-stretch flex flex-row items-start justify-start gap-3 cursor-pointer z-[1]"
-            onClick={RedirectHome}
+            
           >
             <div className="flex flex-col items-start justify-start pt-px px-0 pb-0">
               <img
@@ -125,11 +125,13 @@ const SideBar: NextPage<SideBarType> = ({
                 loading="lazy"
                 alt=""
                 src="/heroiconsminihome1.svg"
+                onClick={RedirectHome}
               />
             </div>
             <a
-              className="[text-decoration:none] text-[#8A8A8A] flex-1 relative text-[inherit] mq450:text-base hover:text-[#4D4D4D]"
-              style={homeStyle}
+              className="[text-decoration:none] text-[#8A8A8A] flex-1 relative mq450:text-base hover:text-[#4D4D4D]"
+              
+              onClick={RedirectHome}
             >
               Home
             </a>
@@ -137,16 +139,18 @@ const SideBar: NextPage<SideBarType> = ({
           <div className="self-stretch flex flex-row items-start justify-start py-0 px-px">
             <div
               className="flex-1 flex flex-row items-start justify-start gap-[11px] cursor-pointer z-[1]"
-              onClick={RedirectSearch}
+              
             >
               <div className="flex flex-col items-start justify-start pt-px px-0 pb-0">
                 <img
                   className="w-[23px] h-[23px] relative  "
                   alt=""
                   src={search}
+                  onClick={RedirectSearch}
                 />
               </div>
               <div
+               onClick={RedirectSearch}
                 className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]"
               >
                 Search
@@ -179,7 +183,8 @@ const SideBar: NextPage<SideBarType> = ({
                   className="w-[21px] h-[21px] relative overflow-hidden shrink-0"
                   loading="lazy"
                   alt=""
-                  src={giveGift}
+                  src="/gift.png"
+                  onClick={Redirectcontribute}
                 />
               </div>
               <div className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]" onClick={Redirectcontribute}>Contribute</div>
@@ -196,10 +201,11 @@ const SideBar: NextPage<SideBarType> = ({
                   className="w-[21px] h-[21px] relative overflow-hidden shrink-0"
                   loading="lazy"
                   alt=""
-                  src={giveGift}
+                  src="/dash.png"
+                  onClick={RedirectStats}
                 />
               </div>
-              <div className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]" onClick={RedirectStats}>Statistics</div>
+              <div className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]" onClick={RedirectStats}>Dashboard</div>
             </div>
           </div>
           
@@ -207,13 +213,7 @@ const SideBar: NextPage<SideBarType> = ({
           
         }
         </div>
-        <div className="w-[138px] flex flex-row items-start justify-start py-0 px-0.5 box-border text-mini">
-          <div className="flex-1 flex flex-col items-start justify-start gap-[15px]">
-            <div className="self-stretch relative z-[2]">{`About `}</div>
-            <div className="self-stretch relative z-[2]">Support</div>
-            <div className="relative z-[2]">{`Terms & Condition`}</div>
-          </div>
-        </div>
+        
       </div>
     </div>
   );
