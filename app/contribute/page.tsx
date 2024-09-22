@@ -3,6 +3,7 @@ import AddBook from '@/components/add-book';
 import Contribute from '@/pages/contribute.page';
 import React, { useState, useEffect } from 'react';
 import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 
 const ContributePage = () => {
   const { status, data: session } = useSession();
@@ -34,6 +35,13 @@ const ContributePage = () => {
   if (status === "loading") {
     return <div>Loading...</div>;
   }
+  
+
+if (status === "unauthenticated") {
+    const router = useRouter();
+    router.push('/');
+    return null;
+}
 
   return (
 <main className='h-full w-full overflow-y-auto scrollbar-hidden'>      

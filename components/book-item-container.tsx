@@ -8,6 +8,7 @@ export type BookItemContainerType = {
   className?: string;
   url?: string;
   title?: string;
+  isbn?: string;
   author?: string;
   year?: string;
 
@@ -27,6 +28,7 @@ const BookItemContainer: NextPage<BookItemContainerType> = ({
   onBookItemContainerClick,
   dontMakeMeWidth,
   url,
+  isbn,
   title,
   spanHeight,
   spanDisplay,
@@ -103,6 +105,9 @@ const BookItemContainer: NextPage<BookItemContainerType> = ({
 
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+  const handlePreviewClick = () => {
+    router.push(`/book/${isbn}`); // Navigate to /book/{isbn}
+  };
 
   return (
     <main>
@@ -127,12 +132,14 @@ const BookItemContainer: NextPage<BookItemContainerType> = ({
           loading="lazy"
           alt=""
           src={thumbnail}
+          onClick={handlePreviewClick}
           /> :
           <img
           className="h-[170px] rounded-[5px] flex-1 relative rounded-8xs max-w-full overflow-hidden object-cover"
           loading="lazy"
           alt=""
           src="rectangle-12-35@2x.png"
+          onClick={handlePreviewClick}
           />
         }
       </div>
@@ -140,18 +147,21 @@ const BookItemContainer: NextPage<BookItemContainerType> = ({
         <div
           className="self-stretch relative text-10pt whitespace-nowrap leading-[128.52%]"
           style={dontMakeMeStyle}
+          onClick={handlePreviewClick}
         >
           {title}
         </div>
         <div
           className="w-[101px] relative text-8pt leading-[14px] inline-block"
           style={authorStyle}
+          onClick={handlePreviewClick}
         >
           {author}, {year}
         </div>
         <div
           className="w-[101px] relative text-8pt leading-[128.52%] inline-block"
           style={bookRatingsStyle}
+          onClick={handlePreviewClick}
         >
           <span>4.5</span>
           <span className="text-darkgray-200">/5</span>

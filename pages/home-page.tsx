@@ -57,59 +57,92 @@ const HomePage: NextPage = () => {
           </div>
 
           <div className="flex flex-col h-[1000px] whitespace-nowrap  ">
-            <span className="text-26pt font-[inter] font-medium text-[#4D4D4D] pl-11 py-[20px]">Good Morning</span>
+            <span className="text-26pt font-[inter] font-medium text-[#4D4D4D] pl-11 py-[20px]">Programming</span>
 
             <div className="flex flex-row gap-[35px] pl-11 overflow-x-auto whitespace-nowrap scrollbar-hidden min-h-[300px] w-[1530px]">
               {booklist.length > 0 ? (
-                booklist.map((request, index) => (
-                  <BookItemContainer
-                    key={index} // Adding a key prop for list items
-                    url={request.url}
-                    title={request.title}
-                    year={request.year} // Fixed to use `year` if `overview` is incorrect
-                    author={request.author}
-                  />
-                ))
+                booklist
+                  .filter((request) => request.category === 'Programming')
+                  .slice(0, 10)
+                  .map((request, index) => (
+                    <BookItemContainer
+                      key={index} // Adding a key prop for list items
+                      url={request.url}
+                      title={request.title}
+                      year={request.year} // Fixed to use `year` if `overview` is incorrect
+                      author={request.author}
+                      isbn={request.isbn}
+                    />
+                  ))
               ) : (
                 <div>No books available</div> // Handle empty booklist case
               )}
             </div>
 
-            <span className="text-26pt font-[inter] font-medium text-[#4D4D4D] pl-[45px] py-[20px]">Good Morning</span>
+            <span className="text-26pt font-[inter] font-medium text-[#4D4D4D] pl-[45px] py-[20px]">Math</span>
 
             <div className="flex flex-row gap-[35px] pl-[45px] overflow-x-auto whitespace-nowrap scrollbar-hidden min-h-[300px] w-[1530px]">
-
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-
-
+              {booklist.length > 0 ? (
+                booklist
+                  .filter((request) => request.category === 'Math')
+                  .slice(0, 10)
+                  .map((request, index) => (
+                    <BookItemContainer
+                      key={index} // Adding a key prop for list items
+                      url={request.url}
+                      title={request.title}
+                      year={request.year} // Fixed to use `year` if `overview` is incorrect
+                      author={request.author}
+                      isbn={request.isbn}
+                    />
+                  ))
+              ) : (
+                <div>No books available</div> // Handle empty booklist case
+              )}
             </div>
-            <span className="text-26pt font-[inter] font-medium text-[#4D4D4D] pl-[45px] py-[20px]">Good Morning</span>
+
+            <span className="text-26pt font-[inter] font-medium text-[#4D4D4D] pl-[45px] py-[20px]">AI</span>
 
             <div className="flex flex-row gap-[35px] pl-[45px] overflow-x-auto whitespace-nowrap scrollbar-hidden min-h-[300px] w-[1530px]">
+              {booklist.length > 0 ? (
+                booklist
+                  .filter((request) => request.category === 'AI')
+                  .slice(0, 10)
+                  .map((request, index) => (
+                    <BookItemContainer
+                      key={index} // Adding a key prop for list items
+                      url={request.url}
+                      title={request.title}
+                      year={request.year} // Fixed to use `year` if `overview` is incorrect
+                      author={request.author}
+                      isbn={request.isbn}
+                    />
+                  ))
+              ) : (
+                <div>No books available</div> // Handle empty booklist case
+              )}
+            </div>
 
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
-              <BookItemContainer image="rectangle-12-35@2x.png" title="Don't Make Me Think" year="2000" author="Youcef Meh" />
+            <span className="text-26pt font-[inter] font-medium text-[#4D4D4D] pl-[45px] py-[20px]">Databases</span>
 
-
+            <div className="flex flex-row gap-[35px] pl-[45px] overflow-x-auto whitespace-nowrap scrollbar-hidden min-h-[300px] w-[1530px]">
+              {booklist.length > 0 ? (
+                booklist
+                  .filter((request) => request.category === 'Databases')
+                  .slice(0, 10)
+                  .map((request, index) => (
+                    <BookItemContainer
+                      key={index} // Adding a key prop for list items
+                      url={request.url}
+                      title={request.title}
+                      year={request.year} // Fixed to use `year` if `overview` is incorrect
+                      author={request.author}
+                      isbn={request.isbn}
+                    />
+                  ))
+              ) : (
+                <div>No books available</div> // Handle empty booklist case
+              )}
             </div>
           </div>
         </div>
@@ -131,22 +164,92 @@ const HomePage: NextPage = () => {
               <Carousel/>
           
           <h2 className="text-lg font-semibold mb-2">Good Morning</h2>
+          
+
           <section className="mb-4">
-            <h3 className="font-semibold">Recommended for You</h3>
+            <h3 className="font-semibold">Math</h3>
             <div className="grid grid-cols-2 gap-4">
-              
-            {booklist.length > 0 ? (
-                booklist.map((request, index) => (
-                  <BookItemContainer
-                    key={index} // Adding a key prop for list items
-                    url={request.url}
-                    title={request.title}
-                    year={request.year} // Fixed to use `year` if `overview` is incorrect
-                    author={request.author}
-                  />
-                ))
+              {booklist.length > 0 ? (
+                booklist
+                  .filter((request) => request.category === 'Math')
+                  .slice(0, 6)
+                  .map((request, index) => (
+                    <BookItemContainer
+                      key={index}
+                      url={request.url}
+                      title={request.title}
+                      year={request.year}
+                      author={request.author}
+                    />
+                  ))
               ) : (
-                <div>No books available</div> // Handle empty booklist case
+                <div>No books available</div>
+              )}
+            </div>
+          </section>
+
+          <section className="mb-4">
+            <h3 className="font-semibold">Programming</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {booklist.length > 0 ? (
+                booklist
+                  .filter((request) => request.category === 'Programming')
+                  .slice(0, 6)
+                  .map((request, index) => (
+                    <BookItemContainer
+                      key={index}
+                      url={request.url}
+                      title={request.title}
+                      year={request.year}
+                      author={request.author}
+                    />
+                  ))
+              ) : (
+                <div>No books available</div>
+              )}
+            </div>
+          </section>
+
+          <section className="mb-4">
+            <h3 className="font-semibold">AI</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {booklist.length > 0 ? (
+                booklist
+                  .filter((request) => request.category === 'AI')
+                  .slice(0, 6)
+                  .map((request, index) => (
+                    <BookItemContainer
+                      key={index}
+                      url={request.url}
+                      title={request.title}
+                      year={request.year}
+                      author={request.author}
+                    />
+                  ))
+              ) : (
+                <div>No books available</div>
+              )}
+            </div>
+          </section>
+
+          <section className="mb-4">
+            <h3 className="font-semibold">Databases</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {booklist.length > 0 ? (
+                booklist
+                  .filter((request) => request.category === 'Databases')
+                  .slice(0, 6)
+                  .map((request, index) => (
+                    <BookItemContainer
+                      key={index}
+                      url={request.url}
+                      title={request.title}
+                      year={request.year}
+                      author={request.author}
+                    />
+                  ))
+              ) : (
+                <div>No books available</div>
               )}
             </div>
           </section>

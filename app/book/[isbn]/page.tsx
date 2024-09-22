@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 // /app/book/[isbn]/page.tsx
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
 const BookDetailPage = () => {
@@ -14,7 +14,8 @@ const BookDetailPage = () => {
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { data: session } = useSession(); // Move useSession hook to the top level of the component
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (isbn) {
@@ -52,8 +53,6 @@ const BookDetailPage = () => {
     fetchThumbnail();
   }, [fetchThumbnail]);
 
- 
-
   const handleDownloadClick = async () => {
     window.open(book.url, '_blank');
     const user = session?.user?.email;
@@ -65,10 +64,26 @@ const BookDetailPage = () => {
       console.log('Failed to register reading:', err);
     }
   };
-  
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  const handleFavoriteClick = async () => {
+    const user = session?.user?.email;
+  
+    try {
+      // Send user and array of books
+      await axios.post('/api/add-favorite', { userEmail: user, bookId: book._id });
+    } catch (err) {
+      console.log('Failed to register reading:', err);
+    }
+  };
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "unauthenticated") {
+    router.push('/');
+    return null;
+  }
 
   return (
     <div>
@@ -170,12 +185,12 @@ const BookDetailPage = () => {
                     
                     <button
                       className="cursor-pointer [border:none]  bg-forestgreen-200 self-stretch rounded-8xs flex flex-row items-start justify-start gap-[9px] z-[1]"
-                      
+                      onClick={handleFavoriteClick}
                     >
                       <div className="self-stretch w-[209px] relative   hidden" />
                       <div className="flex-1 flex flex-col items-start justify-start pt-1.5 px-0 pb-0">
                         <b className="self-stretch h-[61px] relative text-xl leading-[12px] bg-[#41B64D] rounded-[5px] flex font-inter text-white text-center items-center justify-center shrink-0 z-[1] mq450:text-base mq450:leading-[10px]">
-                          Read Now
+                          Add To Favorites
                         </b>
                       </div>
     

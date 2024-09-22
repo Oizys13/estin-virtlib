@@ -3,8 +3,11 @@ import SideBar from "@/components/side-bar";
 import TopMain1 from "@/components/top-main1";
 import HomePage from "@/pages/home-page";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Main() {
+    const { data: session, status } = useSession();
     const [screenSize, setScreenSize] = useState('');
 
     const checkScreenSize = () => {
@@ -25,11 +28,19 @@ export default function Main() {
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+
+    if (status === "unauthenticated") {
+        const router = useRouter();
+        router.push('/');
+        return null;
+    }
+
     return (
         <main className="h-full w-full overflow-y-auto scrollbar-hidden">
             {screenSize === 'large' && (
-
-
                 <div className="flex flex-col gap-2 overflow-y-auto scrollbar-hidden">
                     <div className="h-[900px] w-[1544px] relative bg-white leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
                         <img
@@ -46,7 +57,7 @@ export default function Main() {
                                 polygonIconLeft="unset"
                                 polygonIconFlex="unset"
                                 searchLabelOverflow="hidden"
-                                username={name!}
+                                
                             />
                             <HomePage />
                         </div>
@@ -70,12 +81,7 @@ export default function Main() {
             )}
 
             {screenSize === 'small' && (
-
                 <HomePage/>
-
-
-
-
             )}
         </main >
     )

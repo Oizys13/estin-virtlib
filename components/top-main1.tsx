@@ -50,7 +50,7 @@ const TopMain1: NextPage<TopMain1Type> = ({
   const RedirectProfile = useCallback((e) => {
     e.preventDefault();  
     router.push("/profile");
-  }, []); 
+  }, [router]); 
 
   const { status, data: session } = useSession();
   useEffect(() => {
@@ -87,21 +87,9 @@ const TopMain1: NextPage<TopMain1Type> = ({
         <div className="flex-1 rounded-[40px] shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-21xl bg-white flex flex-row items-start justify-between py-0 pl-0 pr-[17px] box-border max-w-[541px] gap-5 z-[1]">
           <div className="self-stretch w-[541px] relative shadow-[0px_0px_4px_rgba(0,_0,_0,_0.25)] rounded-21xl bg-white hidden max-w-full" />
           <div className="w-[352px] flex flex-row items-center justify-center gap-[21px] max-w-full">
-            <div className="rounded-tl-21xl bg-[#F7F7FA] rounded-[40px] rounded-tr-none rounded-br-none rounded-bl-21xl bg-whitesmoke-100 flex flex-row items-center justify-center  py-[14px] px-[20px] pr-[11px] gap-2.5 z-[1]">
-              
-              <div className="relative leading-[128.52%] inline-block min-w-[27px] z-[1]">
-                All
-              </div>
-              <div className="flex flex-col items-center justify-center  px-0 box-border w-[17px] h-[17px]">
-                <img
-                  className="w-[17px] relative rounded-12xs object-contain z-[1]"
-                  alt=""
-                  src="/search-icon.svg"
-                />
-              </div>
-            </div>
+            
             <input
-              className="w-full [border:none] [outline:none] bg-[transparent] h-9 flex-1 flex flex-col items-center justify-center box-border font-inter text-xl text-silver-100 min-w-[137px]"
+              className="w-full pl-6 [border:none] [outline:none] bg-[transparent] h-14 flex-1 flex flex-col items-center justify-center box-border font-inter text-xl text-silver-100 min-w-[137px]"
               placeholder="Search"
               type="text"
               value={searchQuery}
@@ -147,7 +135,7 @@ const TopMain1: NextPage<TopMain1Type> = ({
     <div className="fixed right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-[1010]">
       <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
         <a href="" onClick={RedirectProfile} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Profile</a>
-        <a href="" onClick={() => signOut()} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+        <button onClick={() => signOut()} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</button>
       </div>
     </div>
   )}

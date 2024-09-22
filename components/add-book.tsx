@@ -87,14 +87,17 @@ const AddBook = () => {
     };
 
     return (
-        <div className="flex flex-col gap-2">
-            <div className="h-[994px] w-[1544px] relative bg-white leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
+        
+
+        
+        <div className="flex flex-col gap-2 overflow-y-auto scrollbar-hidden">
+            <div className="h-[900px] w-[1544px] relative bg-white leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
                 <img
                     className="fixed object-cover  top-0 left-[-37.3px] w-full h-full"
                     alt=""
                     src="/bg-vector1.svg"
                 />
-                <div className="absolute self-stretch top-[48px] left-[341px] bg-[#F3F3F7] rounded-3xs bg-whitesmoke-200 w-[1544px] overflow-y-auto flex flex-col items-start justify-start pb-[216px] box-border gap-5 max-w-full z-[1]">
+                <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden self-stretch top-[48px] left-[341px] bg-[#F3F3F7] rounded-3xs bg-whitesmoke-200 w-[1544px] flex flex-col items-start justify-start pb-[216px] box-border gap-5 max-w-full z-[1]">
                     <div className="self-stretch h-full relative rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none bg-whitesmoke-200 shrink-0 hidden" />
                     <TopMain1
                         polygonIconTop="0"
@@ -189,13 +192,19 @@ const AddBook = () => {
                                     </div>
                                     <div className='flex flex-col'>
                                         <span className='text-[#8E95A9]'>Category</span>
-                                        <input
-                                            type="text"
+                                        <select
                                             name="category"
+                                            placeholder='Select Category'
                                             className='w-[264px] h-[48px] border-[#CDD1DE] border-[1px] rounded-[4px] mt-2 px-3'
                                             value={category}
                                             onChange={(e) => setCategory(e.target.value)}
-                                        />
+                                        >
+                                            <option value=""></option>
+                                            <option value="Math">Math</option>
+                                            <option value="Programming">Programming</option>
+                                            <option value="AI">AI</option>
+                                            <option value="Databases">Databases</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div className='flex flex-row w-[910px] h-[132px] justify-between '>
@@ -275,6 +284,7 @@ const AddBook = () => {
                 propColor1="#4d4d4d"
             />
         </div>
+        
     );
 };
 

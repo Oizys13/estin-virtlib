@@ -97,6 +97,9 @@ const SideBar: NextPage<SideBarType> = ({
   const RedirectStats = useCallback(() => {
     router.push("/statistics");
   }, [router]);
+  const RedirecMyShelf = useCallback(() => {
+    router.push("/myshelf");
+  }, [router]);
 
   const [isSuperuser, loading] = useSuperuserStatus();
   
@@ -168,9 +171,10 @@ const SideBar: NextPage<SideBarType> = ({
                   loading="lazy"
                   alt=""
                   src="/bookshelf.svg"
+                  onClick={RedirecMyShelf}
                 />
               </div>
-              <div className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]">My Shelf</div>
+              <div className="flex-1 relative mq450:text-base text-[#8A8A8A] hover:text-[#4D4D4D]" onClick={RedirecMyShelf}>My Shelf</div>
             </div>
           </div>
           <div className="self-stretch flex flex-row items-start justify-start py-0 px-0.5">
