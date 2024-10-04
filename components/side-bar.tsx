@@ -105,24 +105,19 @@ const SideBar: NextPage<SideBarType> = ({
   
   return (
     <div
-      className={`absolute top-[48px] left-[35px] w-[0px] h-[800px] flex flex-row items-start justify-start z-[1] text-left text-xl text-gray-200 font-inter ${className}`}
-      style={sideBarStyle}
+      className={`absolute left-0 h-full w-[306px] border-[#DCD9D9] border-r  flex flex-row items-start justify-start z-[1] text-left text-xl text-gray-200 font-inter`}
+      
     >
-      <div className="self-stretch flex-1 h-[900px] rounded-tl-[18px] rounded-tr-none rounded-br-none rounded-bl-3xs bg-white overflow-hidden flex flex-col items-start justify-start pt-[38px] px-[66px] pb-[51px] gap-[99.8px]">
-        <div className="flex flex-row items-start justify-start py-0 px-0.5">
-          <img
-            className="h-[74.2px] w-[120px] relative object-cover z-[1]"
-            loading="lazy"
-            alt=""
-            src={group3}
-          />
+      <div className="self-stretch flex-1 h-[900px] bg-white overflow-hidden flex flex-col items-center justify-center px-[66px] gap-[99.8px]">
+        <div className="flex flex-row items-center justify-center py-0 px-0.5 h-[100px] w-[306px] border-[#DCD9D9] border-b ">
+          <h1 className="text-[#FA7C54] font-bold text-18pt">ESTIN VirtLib</h1>
         </div>
         <div className="self-stretch flex-1 flex flex-col items-start justify-start gap-[34px]">
           <div
-            className="self-stretch flex flex-row items-start justify-start gap-3 cursor-pointer z-[1]"
+            className="self-stretch flex flex-row items-start justify-start gap-3 cursor-pointer z-[1] w-[268px] hover:bg-[#F0F0F0]"
             
           >
-            <div className="flex flex-col items-start justify-start pt-px px-0 pb-0">
+            <div className="flex flex-col items-start justify-start pt-px px-0 pb-0  ">
               <img
                 className="w-[23px] h-[23px] relative overflow-hidden shrink-0 bg"
                 loading="lazy"

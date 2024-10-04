@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import SearchBarArea from "../components/search-bar-area";
 import SideBar from "../components/side-bar";
 import GroupComponent1 from "@/components/group-component1";
+import TopBar from "@/components/TopBar";
 
 interface Book {
   _id: string;
@@ -67,16 +68,12 @@ const Search: NextPage = () => {
   };
 
   return (
-    <div className="w-full h-[1080px] relative bg-white leading-[normal] tracking-[normal] mq1125:h-auto mq1125:min-h-[1080]">
-      <img
-        className="fixed object-cover  top-0 left-[-37.3px] w-full h-full"
-        alt=""
-        src="/bg-vector1.svg"
-      />
-      <div className="absolute bg-[#F3F3F7] top-[48px] left-[341px] rounded-3xs w-[1544px] h-[994px] overflow-y-auto scrollbar-hidden max-w-full z-[1] mq1125:h-auto mq1125:min-h-[994]">
-        <div className="absolute top-[0px] left-[0px] w-full flex flex-col items-start justify-start pt-0 px-0 pb-6 box-border gap-[66px] max-w-full">
-          <div className="w-full h-[1957px] absolute !m-[0] right-[0px] bottom-[-925px] left-[0px] rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none bg-whitesmoke-200" />
-          <SearchBarArea onSearch={handleSearch} books={books} />
+    <div className="w-full h-[1080px] relative bg-white leading-[normal] overflow-y-auto max-w-full scrollbar-hidden tracking-[normal] mq1125:h-auto mq1125:min-h-[1080]">
+      
+      <div className="absolute bg-[#F3F3F7] left-[306px] rounded-3xs w-full h-[994px] overflow-y-auto scrollbar-hidden max-w-full z-[1] mq1125:h-auto mq1125:min-h-[994]">
+        <div className="absolute top-[0px] left-[0px] flex flex-col items-start justify-start pt-0 px-0 pb-6 box-border gap-[66px] ">
+          <div className=" h-[1957px] absolute !m-[0] right-[0px] bottom-[-925px] left-[0px] rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none bg-whitesmoke-200" />
+          <TopBar/>
 
           <div
             className={`self-stretch flex flex-row items-start justify-start py-0 pl-11 pr-[46px] box-border max-w-full text-left text-xl text-dimgray-600 font-inter`}

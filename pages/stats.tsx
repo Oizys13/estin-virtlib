@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TopMain1 from "@/components/top-main1";
 import SideBar from "@/components/side-bar";
 import { set } from 'mongoose';
+import TopBar from '@/components/TopBar';
 
 
 export const Statistics = () => {
@@ -182,22 +183,10 @@ export const Statistics = () => {
         
         <div className="flex flex-col gap-2 overflow-y-auto scrollbar-hidden">
 
-            <div className="h-[900px] w-[1544px] relative bg-white leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
-                <img
-                    className="fixed object-cover top-0 left-[-37.3px] w-full h-full"
-                    alt=""
-                    src="/bg-vector1.svg"
-                />
-                <div className="absolute h-[900px] self-stretch top-[48px] left-[341px] bg-[#F3F3F7] rounded-3xs bg-whitesmoke-200 w-[1544px] overflow-y-auto scrollbar-hidden flex flex-col items-start justify-start pb-[216px] box-border gap-5 max-w-full z-[1]">
-                    <TopMain1
-                        polygonIconTop="0"
-                        polygonIconPosition="sticky"
-                        polygonIconAlignSelf="stretch"
-                        polygonIconLeft="unset"
-                        polygonIconFlex="unset"
-                        searchLabelOverflow="hidden"
-
-                    />
+        <div className="h-[900px] w-full relative leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
+                        
+                        <div className="absolute h-[900px] self-stretch left-[306px] bg-[#FAFAFA] rounded-3xs  flex flex-col items-start justify-start pb-0 box-border gap-5 max-w-full z-[1]">
+                    <TopBar/>
                     <div className="flex flex-col gap-5 justify-start mx-[50px]">
                         <div className='flex flex-row w-full'>
 

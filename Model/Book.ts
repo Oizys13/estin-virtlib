@@ -8,11 +8,12 @@ const bookSchema = new mongoose.Schema({
     year: { type: String },
     language: { type: String },
     numPages: { type: Number },
-    category: { type: String },
     downloadable: { type: String },
     hardCopy: { type: String },
     publisher: { type: String },
-    url: {type: String}
+    url: {type: String},
+    tags: [{ type: String }]
+    
 }, { timestamps: true });
 
 const Book = mongoose.models.Book || mongoose.model('Book', bookSchema);

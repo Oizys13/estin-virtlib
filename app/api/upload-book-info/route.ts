@@ -6,21 +6,21 @@ export async function POST(request: Request) {
     try {
         await connectMongoDB();
 
-        const { isbn, title, author, overview, languages, numPages, category, downloadable, hardCopy, publisher, url } = await request.json();
+        const { isbn, title, author, year, languages, numPages, downloadable, hardCopy, publisher, url, tags } = await request.json();
 
         // Create the book document
         const newBook = await Book.create({
             isbn,
             title,
             author,
-            overview,
+            year,
             languages,
             numPages,
-            category,
             downloadable,
             hardCopy,
             publisher,
-            url
+            url,
+            tags
         });
 
         return NextResponse.json(newBook, { status: 201 });

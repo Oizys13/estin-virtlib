@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
-import Carousel from "@/components/carousel";
+
 import NewsNewArrivals from "@/components/news-new-arrivals";
 import BookItemContainer from "@/components/book-item-container";
 import { useEffect, useState } from "react";
+import QuoteComponent from "@/components/QuoteComponent";
 
 const HomePage: NextPage = () => {
   const [booklist, setBookList] = useState<any[]>([]); // Use proper type if you have one
@@ -50,10 +51,10 @@ const HomePage: NextPage = () => {
     <main>
       {screenSize === 'large' && (
         <div className=" ">
-          <div className="flex flex-row">
+          <div className="flex flex-row gap-[100px] pl-[48px]">
 
-            <Carousel />
             <NewsNewArrivals />
+          <QuoteComponent/>
           </div>
 
           <div className="flex flex-col h-[1000px] whitespace-nowrap  ">

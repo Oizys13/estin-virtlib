@@ -5,6 +5,7 @@ import TopMain1 from "@/components/top-main1";
 import { useCallback, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import SideBar from "@/components/side-bar";
+import TopBar from "@/components/TopBar";
 
 const Contribute: NextPage = () => {
   const router = useRouter();
@@ -79,21 +80,11 @@ const Contribute: NextPage = () => {
   };
   return (
     <div className="w-full h-[900px] overflow-y-auto scrollbar-hidden relative bg-white leading-[normal] tracking-[normal] text-left text-xl text-black font-inter mq1300:h-auto mq1300:min-h-[1080]">
-      <img
-        className="fixed object-cover top-0 left-[-37.3px] w-full h-full"
-        alt=""
-        src="/bg-vector1.svg"
-      />
-      <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden top-[48px]  bg-[#F3F3F7] left-[341px] rounded-3xs bg-whitesmoke-200 w-[1544px] flex flex-col items-start justify-start pt-0 px-0 pb-[216px] box-border gap-[98px] max-w-full z-[1]">
+                          
+
+      <div className="absolute h-[900px] self-stretch left-[306px] bg-[#FAFAFA] rounded-3xs  flex flex-col items-start justify-start pb-0 box-border gap-5 max-w-full z-[1]">
         <div className="self-stretch h-full relative rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none bg-whitesmoke-200 shrink-0 hidden" />
-        <TopMain1
-          polygonIconTop="0"
-          polygonIconPosition="sticky"
-          polygonIconAlignSelf="stretch"
-          polygonIconLeft="unset"
-          polygonIconFlex="unset"
-          searchLabelOverflow="hidden"
-        />
+        <TopBar/>
         <div className="w-[1452px] flex flex-row items-start justify-start py-0 px-[68px] box-border max-w-full">
           <div className="flex-1 flex flex-row items-start justify-start gap-14 max-w-full mq1300:flex-wrap">
             <div className="flex-1 flex flex-col items-start justify-start pt-1.5 px-0 pb-0 box-border min-w-[441px] max-w-full mq800:min-w-full">

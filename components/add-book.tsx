@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import TopMain1 from './top-main1';
 import SideBar from './side-bar';
+import TopBar from './TopBar';
 
 const AddBook = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -10,18 +11,24 @@ const AddBook = () => {
     const [isbn, setIsbn] = useState("");
     const [bookTitle, setBookTitle] = useState("");
     const [authorName, setAuthorName] = useState("");
-    const [overview, setOverview] = useState("");
+    const [year, setYear] = useState("");
     const [languages, setLanguages] = useState("");
     const [numPages, setNumPages] = useState("");
-    const [category, setCategory] = useState("");
     const [downloadable, setDownloadable] = useState("Yes");
     const [hardCopy, setHardCopy] = useState("Yes");
     const [publisher, setPublisher] = useState("");
     const [url, setUrl] = useState(""); // URL for the uploaded file
+    const [tags, setTags] = useState<string>("");
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setFile(e.target.files[0]);
+        }
+    };
+
+    const handleAddTag = () => {
+        if (tags) {
+            setTags(tags + ',');
         }
     };
 
@@ -55,14 +62,14 @@ const AddBook = () => {
                 isbn,
                 title: bookTitle,
                 author: authorName,
-                overview,
+                year,
                 languages,
                 numPages,
-                category,
                 downloadable,
                 hardCopy,
                 publisher,
                 url: fileUrl,
+                tags
             };
 
             await axios.post('/api/upload-book-info', bookData); // Call the API to insert the book information into MongoDB
@@ -71,14 +78,13 @@ const AddBook = () => {
             setIsbn("");
             setBookTitle("");
             setAuthorName("");
-            setOverview("");
+            setYear("");
             setLanguages("");
             setNumPages("");
-            setCategory("");
             setDownloadable("");
             setHardCopy("");
             setPublisher("");
-            
+            setTags("");
 
         } catch (error) {
             console.error('Error uploading file or adding book:', error);
@@ -91,23 +97,11 @@ const AddBook = () => {
 
         
         <div className="flex flex-col gap-2 overflow-y-auto scrollbar-hidden">
-            <div className="h-[900px] w-[1544px] relative bg-white leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
-                <img
-                    className="fixed object-cover  top-0 left-[-37.3px] w-full h-full"
-                    alt=""
-                    src="/bg-vector1.svg"
-                />
-                <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden self-stretch top-[48px] left-[341px] bg-[#F3F3F7] rounded-3xs bg-whitesmoke-200 w-[1544px] flex flex-col items-start justify-start pb-[216px] box-border gap-5 max-w-full z-[1]">
+                    <div className="h-[900px] w-full relative leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
+                        
+                        <div className="absolute h-[900px] self-stretch left-[306px] bg-[#FAFAFA] rounded-3xs  flex flex-col items-start justify-start pb-0 box-border gap-5 max-w-full z-[1]">
                     <div className="self-stretch h-full relative rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none bg-whitesmoke-200 shrink-0 hidden" />
-                    <TopMain1
-                        polygonIconTop="0"
-                        polygonIconPosition="sticky"
-                        polygonIconAlignSelf="stretch"
-                        polygonIconLeft="unset"
-                        polygonIconFlex="unset"
-                        searchLabelOverflow="hidden"
-                        username={name!}
-                    />
+                    <TopBar/>
                     <div className="w-[180px] flex flex-row items-center justify-center gap-[9px] pl-[44px]">
                         <img
                             className="h-5 w-5 relative overflow-hidden shrink-0 min-h-[20px] z-[1]"
@@ -161,24 +155,30 @@ const AddBook = () => {
                                 </div>
                                 <div className='flex flex-row w-[1152] h-[132px] justify-between '>
                                     <div className='flex flex-col'>
-                                        <span className='text-[#8E95A9]'>Overview</span>
+                                        <span className='text-[#8E95A9]'>Year</span>
                                         <input
                                             type="text"
-                                            name="overview"
+                                            name="year"
                                             className='w-[264] h-[48px] border-[#CDD1DE] border-[1px] rounded-[4px] mt-2 px-3'
-                                            value={overview}
-                                            onChange={(e) => setOverview(e.target.value)}
+                                            value={year}
+                                            onChange={(e) => setYear(e.target.value)}
                                         />
                                     </div>
                                     <div className='flex flex-col'>
                                         <span className='text-[#8E95A9]'>Language</span>
-                                        <input
-                                            type="text"
-                                            name="language"
-                                            className='w-[264] h-[48px] border-[#CDD1DE] border-[1px] rounded-[4px] mt-2 px-3'
+                                        <select
+                                            name="category"
+                                            
+                                            className='w-[264px] h-[48px] border-[#CDD1DE] border-[1px] rounded-[4px] mt-2 px-3'
                                             value={languages}
                                             onChange={(e) => setLanguages(e.target.value)}
-                                        />
+                                        >
+                                            <option value=""></option>
+                                            <option value="English">English</option>
+                                            <option value="French">French</option>
+                                            <option value="Arabic">Arabic</option>
+                                            
+                                        </select>
                                     </div>
                                     <div className='flex flex-col'>
                                         <span className='text-[#8E95A9]'>Number of pages</span>
@@ -191,20 +191,21 @@ const AddBook = () => {
                                         />
                                     </div>
                                     <div className='flex flex-col'>
-                                        <span className='text-[#8E95A9]'>Category</span>
-                                        <select
-                                            name="category"
-                                            placeholder='Select Category'
-                                            className='w-[264px] h-[48px] border-[#CDD1DE] border-[1px] rounded-[4px] mt-2 px-3'
-                                            value={category}
-                                            onChange={(e) => setCategory(e.target.value)}
-                                        >
-                                            <option value=""></option>
-                                            <option value="Math">Math</option>
-                                            <option value="Programming">Programming</option>
-                                            <option value="AI">AI</option>
-                                            <option value="Databases">Databases</option>
-                                        </select>
+                                        <span className='text-[#8E95A9]'>Tags</span>
+                                        <div className='w-[264px] h-[48px] border-[#CDD1DE] border-[1px] rounded-[4px] mt-2 px-3'>
+                                            <input
+                                                type="text"
+                                                name="tags"
+                                                className='w-full h-full'
+                                                value={tags}
+                                                onChange={(e) => setTags(e.target.value)}
+                                                placeholder='Add tags separated by commas'
+                                            />
+                                        </div>
+                                        <button onClick={handleAddTag}>Add Tag</button>
+                                        {tags && tags.split(',').map((tag, index) => (
+                                            <div key={index}>{tag}</div>
+                                        ))}
                                     </div>
                                 </div>
                                 <div className='flex flex-row w-[910px] h-[132px] justify-between '>
@@ -289,7 +290,3 @@ const AddBook = () => {
 };
 
 export default AddBook;
-
-
-
-
