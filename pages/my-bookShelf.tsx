@@ -74,7 +74,7 @@ const MyBookShelf: NextPage = () => {
   return (
     <div className="w-full h-[900px] overflow-y-auto scrollbar-hidden relative bg-white leading-[normal] tracking-[normal] text-left text-xl text-black font-inter mq1300:h-auto mq1300:min-h-[1080]">
       
-      <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden   bg-[#F3F3F7] left-[306px] rounded-3xs bg-whitesmoke-200 max-w-full flex flex-col items-start justify-start pt-0 px-0 pb-[216px] box-border gap-[20px] z-[1]">
+      <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden   bg-[#FAFAFA] left-[306px] rounded-3xs bg-whitesmoke-200 max-w-full flex flex-col items-start justify-start pt-0 px-0 pb-[216px] box-border gap-[20px] z-[1]">
         <TopBar/>
         <div className="flex flex-row items-start w-[286px] h-[33px] pl-11">
             <span className="text-2xl font-bold mr-1">Your</span>      

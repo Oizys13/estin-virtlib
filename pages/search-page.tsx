@@ -68,18 +68,17 @@ const Search: NextPage = () => {
   };
 
   return (
-    <div className="w-full h-[1080px] relative bg-white leading-[normal] overflow-y-auto max-w-full scrollbar-hidden tracking-[normal] mq1125:h-auto mq1125:min-h-[1080]">
+    <div className="w-full h-[900px] relative bg-white leading-[normal] overflow-y-auto scrollbar-hidden tracking-[normal] mq1125:h-auto mq1125:min-h-[1080]">
       
-      <div className="absolute bg-[#F3F3F7] left-[306px] rounded-3xs w-full h-[994px] overflow-y-auto scrollbar-hidden max-w-full z-[1] mq1125:h-auto mq1125:min-h-[994]">
-        <div className="absolute top-[0px] left-[0px] flex flex-col items-start justify-start pt-0 px-0 pb-6 box-border gap-[66px] ">
-          <div className=" h-[1957px] absolute !m-[0] right-[0px] bottom-[-925px] left-[0px] rounded-tl-none rounded-tr-3xs rounded-br-3xs rounded-bl-none bg-whitesmoke-200" />
+      <div className="absolute bg-[#FAFAFA] left-[306px] overflow-y-auto scrollbar-hidden rounded-3xs h-[900px] max-w-full z-[1] mq1125:h-auto mq1125:min-h-[994]">
           <TopBar/>
+        <div className="absolute flex flex-col items-start justify-start pb-6 box-border gap-[66px] ">
 
           <div
             className={`self-stretch flex flex-row items-start justify-start py-0 pl-11 pr-[46px] box-border max-w-full text-left text-xl text-dimgray-600 font-inter`}
           >
             <div className="flex-1 flex flex-col items-start justify-start gap-[23px] max-w-full">
-              <div className="w-[1158px] flex flex-row items-start justify-between max-w-full gap-5 mq1125:flex-wrap">
+              <div className=" flex flex-row items-start justify-between  gap-5 mq1125:flex-wrap">
                 <div className="w-[90px] text-[#4D4D4D] relative leading-[29px] font-medium inline-block shrink-0 z-[1] mq450:text-base mq450:leading-[21px]">
                   Title
                 </div>

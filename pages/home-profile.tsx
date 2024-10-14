@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import TopMain1 from "../components/top-main1";
 import GroupComponent5 from "@/components/group-component5";
 import SideBar from "../components/side-bar";
+import TopBar from "@/components/TopBar";
 
 const Account: NextPage = () => {
   const { data: session, status } = useSession();
@@ -36,21 +37,11 @@ const Account: NextPage = () => {
   }, [status, session]);
 
   return (
-    <div className="h-[994px] w-[1544px] relative bg-white leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter">
-      <img
-        className="fixed object-cover top-0 left-[-37.3px] w-full h-full"
-        alt=""
-        src="/bg-vector1.svg"
-      />
-      <div className="absolute self-stretch top-[48px] left-[341px] bg-[#F3F3F7] rounded-3xs bg-whitesmoke-200 w-[1544px] overflow-y-auto flex flex-col items-start justify-start pb-[216px] box-border gap-5 max-w-full z-[1]">
-        <TopMain1
-          polygonIconTop="0"
-          polygonIconPosition="sticky"
-          polygonIconAlignSelf="stretch"
-          polygonIconLeft="unset"
-          polygonIconFlex="unset"
-          searchLabelOverflow="hidden"
-        />
+    <div className="h-[900px] w-full relative leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
+                        
+    <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden self-stretch left-[306px] bg-[#FAFAFA] rounded-3xs  flex flex-col items-start justify-start pb-0 box-border gap-5 max-w-full z-[1]">
+
+        <TopBar/>
         <div className="pl-11">
           <GroupComponent5 />
           {loading && <p>Loading book requests...</p>}

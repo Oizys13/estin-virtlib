@@ -19,10 +19,9 @@ export async function GET(request: Request) {
         $or: [
           { title: { $regex: searchRegex } },
           { author: { $regex: searchRegex } },
-          { category: { $regex: searchRegex } },
           { isbn: { $regex: searchRegex } },
           { publisher: { $regex: searchRegex } },
-          { overview: { $regex: searchRegex } },
+          { year: { $regex: searchRegex } },
           { language: { $regex: searchRegex } }
         ]
       });

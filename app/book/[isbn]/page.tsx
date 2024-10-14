@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import TopBar from '@/components/TopBar';
 
 const BookDetailPage = () => {
   const { isbn } = useParams(); // Use useParams to get the dynamic route parameter
@@ -90,14 +91,10 @@ const BookDetailPage = () => {
       {book ? (
        
       
-      <div className="w-full h-[1080px] relative bg-white leading-[normal] tracking-[normal] text-left text-3xl text-dimgray-600 font-inter mq1300:h-auto mq1300:min-h-[1080]">
-      <img
-        className="fixed object-cover top-0 left-[-37.3px] w-full h-full"
-        alt=""
-        src="/bg-vector1.svg"
-      />
-      <div className="absolute bg-[#F3F3F7] top-[48px] left-[341px] rounded-[5px] w-[1544px] h-[994px]  flex flex-col items-start justify-start max-w-full z-[1] mq1300:h-auto">
-            <TopMain1 />
+       <div className="h-[900px] w-full relative leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
+                        
+       <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden self-stretch left-[306px] bg-[#FAFAFA] rounded-3xs  flex flex-col items-start justify-start pb-0 box-border gap-5 max-w-full z-[1]">
+<TopBar/>
         <div className="self-stretch flex flex-col overflow-y-auto scrollbar-hidden items-start justify-start pt-0 px-0 pb-[216px] box-border relative gap-5 shrink-0 max-w-full">
           <div className="w-full h-[1556px] absolute !m-[0] right-[0px] bottom-[-524px] left-[0px]">
 
@@ -139,7 +136,7 @@ const BookDetailPage = () => {
                     <span className="[text-decoration:underline] text-12pt">
                     {book.author}
                     </span>
-                    , 2000
+                    , {book.year}
                   </div>
                 </div>
                 <div className="self-stretch flex flex-row items-start justify-start gap-[19px] z-[1] text-sm text-darkslategray mq800:flex-wrap">
@@ -168,7 +165,7 @@ const BookDetailPage = () => {
                         </div>
                         <div className="flex flex-row items-start justify-start py-0  pr-[27px]">
                           <h3 className="m-0 relative text-12pt whitespace-nowrap text-inherit leading-[150%] font-normal font-[inherit] inline-block min-w-[84px] z-[1]">
-                            Category : {book.category}
+                            Tags : {book.tags}
                           </h3>
                         </div>
                       </div>

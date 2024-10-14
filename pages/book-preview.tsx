@@ -5,6 +5,7 @@ import TopMain1 from "../components/top-main1";
 import BookPreviewCard from "../components/book-preview-card";
 import { useRouter } from "next/navigation";
 import SideBar from "@/components/side-bar";
+import TopBar from "@/components/TopBar";
 
 const BookPreview: NextPage = () => {
   const router = useRouter();
@@ -26,14 +27,10 @@ const BookPreview: NextPage = () => {
   }, [router]);
 
   return (
-    <div className="w-full h-[1080px] relative bg-white leading-[normal] tracking-[normal] text-left text-3xl text-dimgray-600 font-inter mq1300:h-auto mq1300:min-h-[1080]">
-      <img
-        className="fixed object-cover top-0 left-[-37.3px] w-full h-full"
-        alt=""
-        src="/bg-vector1.svg"
-      />
-      <div className="absolute bg-[#F3F3F7] top-[48px] left-[341px] rounded-[5px] w-[1544px] h-[994px]  flex flex-col items-start justify-start max-w-full z-[1] mq1300:h-auto">
-            <TopMain1 />
+    <div className="h-[900px] w-full relative leading-[normal] tracking-[normal] text-left text-mini text-dimgray-600 font-inter ">
+                        
+    <div className="absolute h-[900px] overflow-y-auto scrollbar-hidden self-stretch left-[306px] bg-[#FAFAFA] rounded-3xs  flex flex-col items-start justify-start pb-0 box-border gap-5 max-w-full z-[1]">
+<TopBar />
         <div className="self-stretch flex flex-col overflow-y-auto scrollbar-hidden items-start justify-start pt-0 px-0 pb-[216px] box-border relative gap-5 shrink-0 max-w-full">
           <div className="w-full h-[1556px] absolute !m-[0] right-[0px] bottom-[-524px] left-[0px]">
 

@@ -74,7 +74,7 @@ const GroupComponent1: NextPage<GroupComponent1Type> = ({ className = "", book }
       <div className="w-[198px] flex flex-col items-start justify-start pt-[21px] pb-0 pl-0 pr-[18px] box-border">
         <div className="self-stretch flex flex-col items-start justify-start gap-[11px]">
           <div className="relative leading-[27px] text-[#4D4D4D] text-14pt z-[1] mq450:text-base mq450:leading-[21px]">
-            {book.category}
+            {book.tags}
           </div>
           <div className="self-stretch relative text-[#4D4D4D] text-14pt text-mini leading-[128.52%] z-[1]">
             {book.language}

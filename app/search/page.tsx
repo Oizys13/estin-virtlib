@@ -18,7 +18,7 @@ const page = () => {
   }
     return (
         
-        <div className='h-full w-full overflow-y-auto scrollbar-hidden'>
+        <div className='h-full w-full overflow-x-auto scrollbar-hidden'>
             <Search/>
         </div>
     )
